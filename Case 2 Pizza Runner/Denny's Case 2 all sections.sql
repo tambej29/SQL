@@ -656,7 +656,7 @@ select
         else topping_name
         end order by topping_name separator ', ')) as incgredients
 from result
-group by 1;
+group by order_id, topping_name;
 
 /*-- 6: What is the total quantity of each ingredient used in all delivered pizzas sorted by most frequent first?*/
 with RECURSIVE num (n) as
