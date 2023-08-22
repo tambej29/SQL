@@ -228,7 +228,7 @@ case
  from MA;
  drop table twi;
 
--- Let's see if everything is good.
+-- Validate the result.
 
 select * from apple;
 select * from facebook;
