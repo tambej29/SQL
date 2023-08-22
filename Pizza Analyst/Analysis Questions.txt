@@ -1,0 +1,44 @@
+KPI
+1. Total Revenue
+2. Average Order Value
+3. Total Pizza Sold
+4. Total Orders
+5. Avg Pizzas Per Order
+
+-----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+
+SECTOR WISE ANALYSIS
+1. Sales Performance Analysis
+2. What is the revenue of pizza across different categories?
+2. What is the revenue of pizza accross different size?
+
+-----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+
+SEASONAL ANALYSIS
+1. Which days of the week have the highest number of orders?
+2. At what time do most orders occur?
+3. Which month has the highest revenue?
+
+-----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+
+CUSTOEMER BEHAVIOR ANALYSIS
+1. Which pizza is the favorite of customers (most order pizza)?
+2. Top 5 pizzas by revenue
+3. Which pizzas have had the most orders over the past year of business at the Pizza Restaurant?
+
+-----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+
+PIZZA ANALYSIS
+1. The pizza with the least price and highest price
+2. Number of pizzas per category
+3. Number of pizzas per size
+
+-----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+
+Which ingredients does the restaurant need to make sure they have on hand to make the ordered pizzas?
+
