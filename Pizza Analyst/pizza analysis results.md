@@ -309,7 +309,7 @@ FROM pizza_details
 GROUP BY name
 ORDER BY Total_orders DESC LIMIT 5;
 ```
-_Image order: revenue, total quantity, total orders_
+_Image order :point_up:: revenue, total quantity, total orders_
 
 ![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Pizza%20analysis/top%205%20seller%20by%20revenue.png) ![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Pizza%20analysis/top%205%20seller%20by%20quantity.png) ![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Pizza%20analysis/top%205%20seller%20by%20orders.png)
 
@@ -342,7 +342,7 @@ FROM pizza_details
 GROUP BY name
 ORDER BY Total_orders ASC LIMIT 5;
 ```
-_Image order: revenue, total quantity, total orders_
+_Image order: revenue :point_up:, total quantity, total orders_
 
 ![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Pizza%20analysis/bottom%205%20sellers%20by%20revenue.png) ![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Pizza%20analysis/bottom%205%20sellers%20by%20quantity.png) ![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Pizza%20analysis/bottom%205%20sellers%20by%20orders.png)
 
@@ -381,4 +381,14 @@ LIMIT 10;
 
 _Garlic is the overall most used ingredient, followed by tomatoes._
 
-Visit [Pizza dashboard](https://public.tableau.com/app/profile/jordan.t8456/viz/PizzaDashboard_16926530489230/Home) to see a visual representation.
+## Summary:
+- Most orders are place during (lunch and evening) and on Fridays.
+- Classic Pizzas are customers favorire and most customer purchase and contribute to about 26% of the sales
+- Large pizzas contribute to about 45% of the sales
+- The Classic Deluxed is the overall most ordered pizza
+- The Thai Chiken Pizza yielded the most sales, but teh Classic deluxed Pizza is the best selling pizzas
+- The Brie Carre Pizza is the worst selling pizza
+
+Please Visit [Pizza dashboard](https://public.tableau.com/app/profile/jordan.t8456/viz/PizzaDashboard_16926530489230/Home) to see a visual representation.
+
+✨Thank you ✨
