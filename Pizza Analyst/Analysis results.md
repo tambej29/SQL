@@ -126,7 +126,7 @@ _Large pizza have yielded the most revenue_
 ```SQL
 SELECT
 	CASE
-		WHEN HOUR(time) BETWEEN 9 AND 12 THEN '9-12'
+	WHEN HOUR(time) BETWEEN 9 AND 12 THEN '9-12'
         WHEN HOUR(time) BETWEEN 12 AND 17 THEN '12-17'
         WHEN HOUR(time) BETWEEN 17 AND 20 THEN '17-20'
         WHEN HOUR(time) BETWEEN 20 AND 23 THEN '20-23'
