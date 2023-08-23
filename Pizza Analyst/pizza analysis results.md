@@ -93,8 +93,8 @@ FROM order_details;
 SELECT 
 	category,
 	CONCAT('$', round(SUM(quantity * price), 2)) as revenu,
-    COUNT(DISTINCT order_id) as total_order,
-    SUM(quantity) as pizza_sold
+	COUNT(DISTINCT order_id) as total_order,
+    	SUM(quantity) as pizza_sold
 FROM pizza_details
 GROUP BY category
 ORDER BY 2 DESC;
@@ -109,8 +109,8 @@ _Classic pizzas have yielded the most revenue_
 SELECT 
 	size,
 	round(SUM(quantity * price), 2) as revenu,				
-    COUNT(DISTINCT order_id) as total_order,
-    concat(round(COUNT(DISTINCT order_id) / (SELECT count(DISTINCT order_id) FROM order_details) * 100, 2), '%') as percantage
+    	COUNT(DISTINCT order_id) as total_order,
+    	concat(round(COUNT(DISTINCT order_id) / (SELECT count(DISTINCT order_id) FROM order_details) * 100, 2), '%') as percantage
 FROM pizza_details
 GROUP BY size
 ORDER BY 2 DESC;
@@ -126,13 +126,13 @@ _Large pizza have yielded the most revenue_
 ```SQL
 SELECT
 	CASE
-		WHEN HOUR(time) BETWEEN 9 AND 12 THEN '9-12'
+	WHEN HOUR(time) BETWEEN 9 AND 12 THEN '9-12'
         WHEN HOUR(time) BETWEEN 12 AND 17 THEN '12-17'
         WHEN HOUR(time) BETWEEN 17 AND 20 THEN '17-20'
         WHEN HOUR(time) BETWEEN 20 AND 23 THEN '20-23'
         End as Time_range,
 	CASE
-		WHEN HOUR(time) BETWEEN 9 AND 12 THEN 'Morning'
+	WHEN HOUR(time) BETWEEN 9 AND 12 THEN 'Morning'
         WHEN HOUR(time) BETWEEN 12 AND 17 THEN 'Afternoon'
         WHEN HOUR(time) BETWEEN 17 AND 20 THEN 'Evening'
         WHEN HOUR(time) BETWEEN 20 AND 23 THEN 'Night'
@@ -147,8 +147,8 @@ ORDER BY total_order DESC;
 ```SQL
 SELECT
 	HOUR(time) as order_hour,
-    COUNT(DISTINCT order_id) as Total_orders,
-    SUM(quantity) as Pizza_sold
+	COUNT(DISTINCT order_id) as Total_orders,
+    	SUM(quantity) as Pizza_sold
 FROM pizza_details
 GROUP BY order_hour
 ORDER BY order_hour;
@@ -162,8 +162,8 @@ _Peak orders are during lunch and in the early evening_
 ```sql
 SELECT
 	DAYNAME(date) as Order_day,
-    COUNT(DISTINCT order_id) as total_order,
-    SUM(quantity) as Pizza_sold
+    	COUNT(DISTINCT order_id) as total_order,
+	SUM(quantity) as Pizza_sold
 FROM pizza_details
 GROUP BY Order_day
 ORDER BY total_order DESC;
@@ -177,8 +177,8 @@ _Most customers order pizza on Fiday_
 ```sql
 SELECT
 	DAYNAME(date) as Order_day,
-    COUNT(DISTINCT order_id) as total_order,
-    SUM(quantity) as Pizza_sold
+    	COUNT(DISTINCT order_id) as total_order,
+    	SUM(quantity) as Pizza_sold
 FROM pizza_details
 GROUP BY Order_day
 ORDER BY total_order DESC;
@@ -210,9 +210,9 @@ SELECT DISTINCT *
 FROM
 (SELECT
 	name,
-    price,
-    MAX(price) OVER() as Max_price,
-    MIN(price) OVER() as Min_price,
+	price,
+    	MAX(price) OVER() as Max_price,
+    	MIN(price) OVER() as Min_price,
 	round(AVG(price) OVER(), 2) as Avg_price
 FROM pizza_details
 ORDER BY price DESC) as a
@@ -228,8 +228,8 @@ _The cheapes pizzas are price at $9.75 while the most expensive ones are priced 
 -- with size
 SELECT 
 	name,
-    size,
-    COUNT(order_id) as Total_orders
+    	size,
+    	COUNT(order_id) as Total_orders
 FROM pizza_details
 GROUP BY name, size
 ORDER BY total_orders DESC
@@ -242,7 +242,7 @@ _The small Big Meat Pizza is the most orderd pizza_
 -- Without size
 SELECT 
 	name,
-    COUNT(order_id) as Total_orders
+	COUNT(order_id) as Total_orders
 FROM pizza_details
 GROUP BY name
 ORDER BY total_orders DESC
@@ -258,8 +258,8 @@ _The Classic Deluxed is the all time favorite pizza._
 ```sql
 SELECT
 	category,
-    CONCAT('$', ROUND(SUM(quantity * price), 2)) as Total_sales,
-    CONCAT(round(SUM(quantity * price) / (SELECT SUM(quantity * price) FROM pizza_details) * 100, 2), '%') as Percentage
+    	CONCAT('$', ROUND(SUM(quantity * price), 2)) as Total_sales,
+    	CONCAT(round(SUM(quantity * price) / (SELECT SUM(quantity * price) FROM pizza_details) * 100, 2), '%') as Percentage
 FROM pizza_details
 GROUP BY category
 ORDER BY Total_sales DESC;
@@ -273,8 +273,8 @@ _Classic pizzas are the all time faborite by customers._
 ```sql
 SELECT
 	size,
-    CONCAT('$', ROUND(SUM(quantity * price), 2)) as Total_sales,
-    CONCAT(round(SUM(quantity * price) / (SELECT SUM(quantity * price) FROM pizza_details) * 100, 2), '%') as Percentage
+    	CONCAT('$', ROUND(SUM(quantity * price), 2)) as Total_sales,
+    	CONCAT(round(SUM(quantity * price) / (SELECT SUM(quantity * price) FROM pizza_details) * 100, 2), '%') as Percentage
 FROM pizza_details
 GROUP BY size
 ORDER BY Total_sales DESC;
@@ -288,7 +288,7 @@ _Large pizzas generated the most sales, while xx large has only contributed to 0
 -- Top 5 Best sellers by Revenue
 SELECT
 	name, 
-    round(SUM(quantity * price), 2) as Revenu
+    	round(SUM(quantity * price), 2) as Revenu
 FROM pizza_details
 GROUP BY name
 ORDER BY Revenu DESC LIMIT 5;
@@ -296,7 +296,7 @@ ORDER BY Revenu DESC LIMIT 5;
 -- Top 5 Best sellers total quantity
 SELECT
 	name, 
-    SUM(quantity) as Total_sold
+    	SUM(quantity) as Total_sold
 FROM pizza_details
 GROUP BY name
 ORDER BY Total_sold DESC LIMIT 5;
@@ -304,7 +304,7 @@ ORDER BY Total_sold DESC LIMIT 5;
 -- Top 5 Best sellers total_orders
 SELECT
 	name, 
-    COUNT(DISTINCT order_id) Total_orders
+    	COUNT(DISTINCT order_id) Total_orders
 FROM pizza_details
 GROUP BY name
 ORDER BY Total_orders DESC LIMIT 5;
@@ -321,7 +321,7 @@ _Although The Thai Chicken Pizza has generate more revenue, The Classic Deluxe P
 -- Top 5 bottom sellers by Revenue
 SELECT
 	name, 
-    round(SUM(quantity * price), 2) as Revenu
+    	round(SUM(quantity * price), 2) as Revenu
 FROM pizza_details
 GROUP BY name
 ORDER BY Revenu ASC LIMIT 5;
@@ -329,7 +329,7 @@ ORDER BY Revenu ASC LIMIT 5;
 -- Top 5 bottom sellers total quantity
 SELECT
 	name, 
-    SUM(quantity) as Total_sold
+    	SUM(quantity) as Total_sold
 FROM pizza_details
 GROUP BY name
 ORDER BY Total_sold ASC LIMIT 5;
@@ -337,7 +337,7 @@ ORDER BY Total_sold ASC LIMIT 5;
 -- Top 5 bottom sellers total_orders
 SELECT
 	name, 
-    COUNT(DISTINCT order_id) as Total_orders
+    	COUNT(DISTINCT order_id) as Total_orders
 FROM pizza_details
 GROUP BY name
 ORDER BY Total_orders ASC LIMIT 5;
@@ -353,20 +353,20 @@ _The Brie Carre Pizza is the overall worst selling pizza._
 ```sql
 WITH RECURSIVE num as
 	(
-    SELECT 1 as n
+    	SELECT 1 as n
 UNION ALL
 	SELECT n + 1 FROM num
-    WHERE n < 10
+	WHERE n < 10
     ),
 ingredient as
 	(
-    SELECT
+	SELECT
 		name,
-        size,
-        n as ingredient_id,
+        	size,
+        	n as ingredient_id,
 		substring_index(substring_index(ingredients, ',', n), ',',-1) as ingredient_name
 	FROM num
-    JOIN pizza_details as pd
+    	JOIN pizza_details as pd
 		on n <= length(ingredients) - length(replace(ingredients, ',', '')) + 1
     )
 SELECT
