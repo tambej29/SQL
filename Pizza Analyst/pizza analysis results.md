@@ -389,6 +389,6 @@ _Garlic is the overall most used ingredient, followed by tomatoes._
 - The Thai Chiken Pizza yielded the most sales, but the Classic deluxed Pizza is the best selling pizza
 - The Brie Carre Pizza is the worst selling pizza
 
-Please Visit [Pizza dashboard](https://public.tableau.com/app/profile/jordan.t8456/viz/PizzaDashboard_16926530489230/Home) to see a visual representation.
+Please Visit [Pizza dashboard](https://public.tableau.com/app/profile/jordan.t8456/viz/PizzaDashboard_16926530489230/Home) to see a visual representation, and [SQL Script](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/pizza%20analyis%20script.sql) for the script.
 
 ✨Thank you ✨
