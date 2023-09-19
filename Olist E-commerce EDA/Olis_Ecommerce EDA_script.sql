@@ -1,18 +1,26 @@
 -- 					OLIST E-COMMERCE EDA						--
 
+-- 		Data Import			--
+LOAD DATA LOCAL INFILE "file_path" -- This process will be repeated untill all the files are imported.
+INTO TABLE table_name
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+;
+
 -- 		Data transformation: 		--
 
-SELECT * FROM customers; # This dataset has information about the customer and its location.
-SELECT * FROM items; # This dataset includes data about the items purchased within each order.
-SELECT * FROM payments; # This dataset includes data about the orders payment options.
-SELECT * FROM orders; # This is the core dataset. From each order you might find all other information.
-SELECT * FROM reviews; # This dataset includes data about the reviews made by the customers.
-SELECT * FROM products; # This dataset includes data about the products sold by Olist.
-SELECT * FROM sellers; # This dataset includes data about the sellers that fulfilled orders made at Olist.
-SELECT * FROM product_cat_translation; # Translates the product_category_name to english.
-SELECT * FROM geolocation; # This dataset has information Brazilian zip codes and its lat/lng coordinates.
+SELECT * FROM customers; -- This dataset has information about the customer and its location.
+SELECT * FROM items; -- This dataset includes data about the items purchased within each order.
+SELECT * FROM payments; -- This dataset includes data about the orders payment options.
+SELECT * FROM orders; -- This is the core dataset. From each order you might find all other information.
+SELECT * FROM reviews; -- This dataset includes data about the reviews made by the customers.
+SELECT * FROM products; -- This dataset includes data about the products sold by Olist.
+SELECT * FROM sellers; -- This dataset includes data about the sellers that fulfilled orders made at Olist.
+SELECT * FROM product_cat_translation; -- Translates the product_category_name to english.
 
-# 1. Join the datasets, rename some columns, and leave unnecessary columns
+-- 1. Join the datasets, rename some columns, and leave unnecessary columns
 CREATE TABLE temp_t
 SELECT
 	c.customer_id, c.customer_unique_id, c.customer_zip_code_prefix as customer_zip_code, c.customer_city, c.customer_state,
@@ -28,7 +36,7 @@ JOIN payments as pay on o.order_id = pay.order_id
 JOIN reviews as r on r.order_id = o.order_id
 JOIN products as p on i.product_id = p.product_id
 JOIN product_cat_translation as pct on p.product_category_name = pct.ï»¿product_category_name;
-# Join the sellers table
+-- Join the sellers table
 CREATE TABLE olist_data as
 SELECT
 	t.*,
@@ -36,7 +44,7 @@ SELECT
 FROM temp_t as t
 JOIN sellers as s USING(seller_id);
 
-# 2. Create a function to proper case customer_city and seller_city
+-- 2. Create a function to proper case customer_city and seller_city
 --   This function can be use to capitalize the first letter of every word withing a row, like the PROPER() function in Excel
 DELIMITER //
 CREATE FUNCTION proper(str VARCHAR(500))
@@ -68,7 +76,7 @@ SET customer_city = proper(customer_city),
 	seller_city = proper(seller_city)
 ;
 
-# 3. Update the dataset columns to their proper data types
+-- 3. Update the dataset columns to their proper data types
 -- Check the columns data types
 Describe olist_data;
 -- Create a store procedure that will update date columns to date and alter the data types to date
@@ -175,17 +183,17 @@ JOIN row_cnt as r USING(rn);
 
 -- 		Sales Analysis: 		--
 
-# Total sales
+-- Total sales
 SELECT 
 	ROUND(SUM(payment_value), 2)  AS total_sales
 FROM agg_data
 
-# Total Orders
+-- Total Orders
 SELECT
 	COUNT(DISTINCT order_id) AS total_orders
 FROM agg_data;
 
-# Top 10 product by sales
+-- Top 10 product by sales
 SELECT
 	product_name,
     ROUND(SUM(payment_value), 2) AS total_sales_by_product
@@ -193,7 +201,7 @@ FROM agg_data
 GROUP BY product_name
 ORDER BY total_sales_by_product DESC LIMIT 10;
 
-# Top 10 product by orders
+-- Top 10 product by orders
 SELECT
 	product_name,
     COUNT(order_id) AS total_orders_by_product
@@ -201,7 +209,7 @@ FROM agg_data
 GROUP BY product_name
 ORDER BY total_orders_by_product DESC LIMIT 10;
 
-#  Bottom 10 product by sales
+--  Bottom 10 product by sales
 SELECT
 	product_name,
     ROUND(SUM(payment_value), 2) AS total_sales_by_product
@@ -209,7 +217,7 @@ FROM agg_data
 GROUP BY product_name
 ORDER BY total_sales_by_product LIMIT 10;
 
-# bottom 10 product by orders
+-- bottom 10 product by orders
 SELECT
 	product_name,
     COUNT(order_id) AS total_orders_by_product
@@ -217,7 +225,7 @@ FROM agg_data
 GROUP BY product_name
 ORDER BY total_orders_by_product ASC LIMIT 10;
 
-# Top 10 city by orders
+-- Top 10 city by orders
 SELECT
 	customer_city,
     COUNT(order_id) AS orders_count
@@ -225,7 +233,7 @@ FROM agg_data
 GROUP BY customer_city
 ORDER BY orders_count DESC LIMIT 10;
 
-# Top 10 city by sales
+-- Top 10 city by sales
 SELECT
 	customer_state,
     ROUND(SUM(payment_value), 2)  AS total_sales
@@ -233,7 +241,7 @@ FROM agg_data
 GROUP BY customer_state
 ORDER BY total_sales DESC LIMIT 10;
 
-# Peak order by hour
+-- Peak order by hour
 SELECT
 	HOUR(order_date) AS hr,
     COUNT(order_id) AS total_order
@@ -241,7 +249,7 @@ FROM agg_data
 GROUP BY hr
 ORDER BY total_order DESC;
 
-# Peak order by the day
+-- Peak order by the day
 SELECT
 	DAYNAME(order_date) AS day,
     COUNT(order_id) AS total_order
@@ -249,7 +257,7 @@ FROM agg_data
 GROUP BY day
 ORDER BY total_order DESC;
 
-# Montly order trend
+-- Montly order trend
 SELECT
 	MONTHNAME(order_date) AS month,
     COUNT(order_id) AS total_order
@@ -260,13 +268,13 @@ ORDER BY total_order DESC;
 
 -- 		Shipping Analysis: 		--
 
-# Average delivery time
+-- Average delivery time
 SELECT
 	ROUND(AVG(num_days_to_deliver)) AS avg_delivering_days
 FROM agg_data
 WHERE num_days_to_deliver IS NOT NULL; -- if num_days_to_deliver is NULL then the order was not delivered;
 
-# Ratio of orders delivered below or above the average delivery day
+-- Ratio of orders delivered below or above the average delivery day
 WITH cte as
 	(
 	select
@@ -285,7 +293,7 @@ select
 from cte
 group by avg_delivery_days;
 
-# Percentage of on time deliveries vs late deliveries
+-- Percentage of on time deliveries vs late deliveries
 SELECT 
     CONCAT(ROUND(COUNT(CASE WHEN delivered_date <= estimated_delivery_date THEN order_id END) / COUNT(order_id) * 100), '%') AS `on_time_%`,
     CONCAT(ROUND(COUNT(CASE WHEN delivered_date > estimated_delivery_date THEN order_id END) / COUNT(order_id) * 100), '%') AS `late_%`
@@ -295,12 +303,12 @@ WHERE order_status = 'delivered';
 
 -- 		Customer Analysis: 		--
 
-# Average order per customer
+-- Average order per customer
 SELECT 
     ROUND(SUM(quantity) / COUNT(quantity), 1) AS avg_order
 FROM agg_data;
 
-# Percentage of delivered order vs not delivered
+-- Percentage of delivered order vs not delivered
 SELECT 
     CONCAT(ROUND(COUNT(CASE WHEN order_status = 'delivered' THEN order_id END) / COUNT(order_id) * 100, 2), '%') AS delivered,
     CONCAT(ROUND(COUNT(CASE WHEN order_status <> 'delivered' THEN order_id END) / COUNT(order_id) * 100, 2), '%') AS not_delivered
