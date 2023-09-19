@@ -114,4 +114,98 @@ BEGIN
     DEALLOCATE PREPARE stmt;
 END //
 ```
+Update all the date columns by calling the procedure and passing in the column name. Without the procedure I would have to write the above query 4 times, one for each column.
+```sql
+CALL date_update('order_date');
+CALL date_update('delivered_date');
+CALL date_update('estimated_delivery_date');
+CALL date_update('shipping_limit_date');
+```
+Check the dataset datatype
+
+### 4. Aggregate the dataset
+```sql
+SELECT
+     	customer_id, order_id, 
+     	order_item_id,
+     	product_id,
+     	product_name,
+	price, freight_value,
+	payment_type, payment_value
+FROM olist_data
+ORDER BY customer_id;
+```
+Notice how customer '00331de1659c7f4fb660c8810e6de3f5' bought 3 of the same product? and the payment_value which is 243.69 is repeated 3 times? If I calculate the total sales, 
+it would be wrong because there are many more duplicates. I will count the order_item_id which will be quantity and aggregate the data.
+Create a new table with actual payment_value by using price, freight_value, and quantity.
+Calcualte the time it took for items to be delivered and number of days the delivery was late by or early by
+```sql
+CREATE TABLE agg_data -- agg here is aggregated, since the data was aggregated
+SELECT
+	customer_id, customer_unique_id, customer_zip_code, customer_city, customer_state, order_id, order_status, order_date, 
+    	delivered_date, estimated_delivery_date, DATEDIFF(delivered_date, order_date) as num_days_to_deliver, 
+    	DATEDIFF(estimated_delivery_date, delivered_date) as delivered_on_time_or_not, quantity, product_id, product_name,
+    	seller_id, shipping_limit_date, price, freight_value, payment_type,
+    	ROUND(case when payment_type = 'voucher' then payment_value * quantity ELSE (price * quantity) +(freight_value * quantity) END, 2) as payment_value,
+    	review_id, review_score, seller_city, seller_state, seller_zip_code
+FROM(
+SELECT
+	customer_id, customer_unique_id, customer_zip_code, customer_city, customer_state, order_id, order_status, order_date, 
+    	delivered_date, estimated_delivery_date, DATEDIFF(delivered_date, order_date) as num_days_to_deliver, 
+    	DATEDIFF(estimated_delivery_date, delivered_date) as delivered_on_time_or_not, COUNT(order_item_id) as quantity, product_id, 
+    	seller_id, shipping_limit_date, price, freight_value, payment_type, payment_value, review_id, review_score, product_name,  
+    	seller_city, seller_state, seller_zip_code 
+FROM olist_data
+GROUP BY 
+	customer_id, customer_unique_id, customer_zip_code, customer_city, customer_state, order_id, order_status, order_date, 
+    	delivered_date, estimated_delivery_date, DATEDIFF(delivered_date, order_date), 
+	DATEDIFF(estimated_delivery_date, delivered_date), product_id, 
+    	seller_id, shipping_limit_date, price, freight_value, payment_type, payment_value, review_id, review_score, product_name,  
+    	seller_city, seller_state, seller_zip_code
+    	) as sbqry;
+```
+View the newly created data set
+
+Check the shape of the dataset
+```sql
+WITH shape as
+	(
+	SELECT
+		ROW_NUMBER() OVER() as rn,
+		COUNT(COLUMN_NAME) as num_of_columns
+	FROM INFORMATION_SCHEMA.COLUMNS
+	WHERE TABLE_SCHEMA = 'olist' AND TABLE_NAME = 'agg_data'
+	),
+row_cnt as
+	(
+	SELECT 
+		ROW_NUMBER() over() as rn,
+		COUNT(*) as num_of_rows
+	FROM agg_data
+    	)
+SELECT
+	num_of_rows, num_of_columns
+FROM shape as s
+JOIN row_cnt as r USING(rn);
+```
+
+## Data Analysis:
+
+### Sales Analysis
+What is the total sales?
+```sql
+-- Total sales
+SELECT 
+	ROUND(SUM(payment_value), 2)  AS total_sales
+FROM agg_data
+```
+
+How many orders have been placed?
+```sql
+-- Total Orders
+SELECT
+	COUNT(DISTINCT order_id) AS total_orders
+FROM agg_data;
+```
+
 
