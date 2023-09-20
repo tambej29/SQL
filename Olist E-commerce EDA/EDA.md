@@ -347,6 +347,8 @@ SELECT
     ROUND(SUM(quantity) / COUNT(quantity), 1) AS avg_order
 FROM agg_data;
 ```
+![avg order customer](https://github.com/tambej29/SQL/assets/68528130/b49ebc12-1370-4256-a45a-e6388473974d)
+
 What payment method do customers preffer to use?
 ```sql
 SELECT
@@ -355,3 +357,4 @@ SELECT
 FROM agg_data
 GROUP BY payment_type;
 ```
+![payment type](https://github.com/tambej29/SQL/assets/68528130/99895d1b-e266-4b75-82b4-a522563d9c9a)
