@@ -319,6 +319,7 @@ SELECT
 FROM agg_data
 WHERE num_days_to_deliver IS NOT NULL; -- if num_days_to_deliver is NULL then the order was not delivered;
 ```
+![avg delivery](https://github.com/tambej29/SQL/assets/68528130/f6d83552-5871-482d-9c1b-17e70923c04d)
 
 What is the ratio between on time deliveries and late deliveries?
 ```sql
@@ -328,6 +329,8 @@ SELECT
 FROM agg_data
 WHERE order_status = 'delivered';
 ```
+![image](https://github.com/tambej29/SQL/assets/68528130/653bffb0-3708-468b-b1f2-26578f392289)
+
 Percentage of delivered order vs not delivered
 ```sql
 SELECT 
@@ -335,6 +338,7 @@ SELECT
 	CONCAT(ROUND(COUNT(CASE WHEN order_status <> 'delivered' THEN order_id END) / COUNT(order_id) * 100, 2), '%') AS not_delivered
 FROM agg_data;
 ```
+![image](https://github.com/tambej29/SQL/assets/68528130/50826315-f692-4b60-8c73-9202b3cc5b84)
 
 ### Customer insights
 Waht is the average customer order quantity?
