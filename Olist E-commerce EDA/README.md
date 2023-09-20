@@ -33,3 +33,4 @@ The main aim of this project is to perform a full-scale analysis using SQL for d
 3. **Customer Analysis**
    - Average order per customer
    - Preffered customer payment method
+Please visit 
