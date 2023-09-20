@@ -208,4 +208,121 @@ SELECT
 FROM agg_data;
 ```
 
+Waht are the top and bottom 10 products by sales?
+```sql
+-- Top 10 products by sales
+SELECT
+	product_name,
+    	ROUND(SUM(payment_value), 2) AS total_sales_by_product
+FROM agg_data
+GROUP BY product_name
+ORDER BY total_sales_by_product DESC LIMIT 10;
+
+--  Bottom 10 product by sales
+SELECT
+	product_name,
+    	ROUND(SUM(payment_value), 2) AS total_sales_by_product
+FROM agg_data
+GROUP BY product_name
+ORDER BY total_sales_by_product LIMIT 10;
+```
+
+What are the top and bottom 10 products by orders?
+```sql
+-- Top 10 product by orders
+SELECT
+	product_name,
+    	COUNT(order_id) AS total_orders_by_product
+FROM agg_data
+GROUP BY product_name
+ORDER BY total_orders_by_product DESC LIMIT 10;
+
+-- bottom 10 product by orders
+SELECT
+	product_name,
+    	COUNT(order_id) AS total_orders_by_product
+FROM agg_data
+GROUP BY product_name
+ORDER BY total_orders_by_product ASC LIMIT 10;
+```
+
+Which cities are generating the most sales and orders?
+```sql
+-- Top 10 cities by orders
+SELECT
+	customer_city,
+    	COUNT(order_id) AS orders_count
+FROM agg_data
+GROUP BY customer_city
+ORDER BY orders_count DESC LIMIT 10;
+
+-- Top 10 city by sales
+SELECT
+	customer_state,
+    	ROUND(SUM(payment_value), 2)  AS total_sales
+FROM agg_data
+GROUP BY customer_state
+ORDER BY total_sales DESC LIMIT 10;
+```
+
+What hours of the day do most orders occur?
+```sql
+SELECT
+	HOUR(order_date) AS hr,
+    	COUNT(order_id) AS total_order
+FROM agg_data
+GROUP BY hr
+ORDER BY total_order DESC;
+```
+
+What day of the week do most orders occur?
+```sql
+SELECT
+	DAYNAME(order_date) AS day,
+    	COUNT(order_id) AS total_order
+FROM agg_data
+GROUP BY day
+ORDER BY total_order DESC;
+```
+
+Montly order trend
+```sql
+SELECT
+	MONTHNAME(order_date) AS month,
+    	COUNT(order_id) AS total_order
+FROM agg_data
+GROUP BY month
+ORDER BY total_order DESC;
+```
+
+### Shipping Insights
+What is the average delivery time?
+```sql
+SELECT
+	ROUND(AVG(num_days_to_deliver)) AS avg_delivering_days
+FROM agg_data
+WHERE num_days_to_deliver IS NOT NULL; -- if num_days_to_deliver is NULL then the order was not delivered;
+```
+
+What is the ratio between on time deliveries and late deliveries?
+```sql
+SELECT 
+	CONCAT(ROUND(COUNT(CASE WHEN delivered_date <= estimated_delivery_date THEN order_id END) / COUNT(order_id) * 100), '%') AS `on_time_%`,
+    	CONCAT(ROUND(COUNT(CASE WHEN delivered_date > estimated_delivery_date THEN order_id END) / COUNT(order_id) * 100), '%') AS `late_%`
+FROM agg_data
+WHERE order_status = 'delivered';
+```
+What is the ration between delivered and none delivered ordered?
+```sql
+SELECT 
+    	CONCAT(ROUND(COUNT(CASE WHEN order_status = 'delivered' THEN order_id END) / COUNT(order_id) * 100, 2), '%') AS delivered,
+   	 CONCAT(ROUND(COUNT(CASE WHEN order_status <> 'delivered' THEN order_id END) / COUNT(order_id) * 100, 2), '%') AS not_delivered
+FROM agg_data;
+```
+
+
+
+
+
+
 
