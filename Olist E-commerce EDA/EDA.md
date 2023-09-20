@@ -275,7 +275,7 @@ GROUP BY hr
 ORDER BY total_order DESC;
 ```
 
-What day of the week do most orders occur?
+When are the most orders placed during the week?
 ```sql
 SELECT
 	DAYNAME(order_date) AS day,
@@ -312,17 +312,26 @@ SELECT
 FROM agg_data
 WHERE order_status = 'delivered';
 ```
-What is the ration between delivered and none delivered ordered?
+Percentage of delivered order vs not delivered
 ```sql
 SELECT 
-    	CONCAT(ROUND(COUNT(CASE WHEN order_status = 'delivered' THEN order_id END) / COUNT(order_id) * 100, 2), '%') AS delivered,
-   	 CONCAT(ROUND(COUNT(CASE WHEN order_status <> 'delivered' THEN order_id END) / COUNT(order_id) * 100, 2), '%') AS not_delivered
+	CONCAT(ROUND(COUNT(CASE WHEN order_status = 'delivered' THEN order_id END) / COUNT(order_id) * 100, 2), '%') AS delivered,
+	CONCAT(ROUND(COUNT(CASE WHEN order_status <> 'delivered' THEN order_id END) / COUNT(order_id) * 100, 2), '%') AS not_delivered
 FROM agg_data;
 ```
 
-
-
-
-
-
-
+### Customer insights
+Waht is the average customer order quantity?
+```sql
+SELECT 
+    ROUND(SUM(quantity) / COUNT(quantity), 1) AS avg_order
+FROM agg_data;
+```
+What payment method do customers preffer to use?
+```sql
+SELECT
+	payment_type,
+    	CONCAT(ROUND(COUNT(payment_type) / (SELECT COUNT(*) FROM agg_data) * 100, 2), '%') as sdsfs
+FROM agg_data
+GROUP BY payment_type;
+```
