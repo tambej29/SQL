@@ -1,5 +1,4 @@
 # Olist E-Commerce EDA
-![test](https://raw.githubusercontent.com/tambej29/SQL/main/Olist%20E-commerce%20EDA/pic/Customer%20Analysis/Avg_delivery_cust.png)
 ## Data Import:
 ```sql
 -- 		Data Import			--
@@ -68,13 +67,15 @@ BEGIN
   RETURN TRIM(result);
 END //
 ```
-Check the function functionality
+Check the newly created proper function functionality
 ```sql
 SELECT
     customer_city, proper(customer_city) as proper_customer_city_name,
     seller_city, proper(seller_city) as proper_seller_city
 FROM olist_data;
 ```
+![Proper_check](https://github.com/tambej29/Analysis_Insights/blob/main/Olist%20E-commerce%20EDA/pic/Data_transformation/proper_check.png)
+
 User the proper function to perform an update on customer city, and seller city columns.
 ```sql
 SET sql_safe_updates = 0;
@@ -121,7 +122,9 @@ CALL date_update('delivered_date');
 CALL date_update('estimated_delivery_date');
 CALL date_update('shipping_limit_date');
 ```
-Check the dataset datatype
+Check the dataset datatype (First imagee is before update, second is after update)
+
+![before](https://github.com/tambej29/Analysis_Insights/blob/main/Olist%20E-commerce%20EDA/pic/Data_transformation/describe.png) ![after](https://github.com/tambej29/Analysis_Insights/blob/main/Olist%20E-commerce%20EDA/pic/Data_transformation/describe_clean.png)
 
 ### 4. Aggregate the dataset
 ```sql
