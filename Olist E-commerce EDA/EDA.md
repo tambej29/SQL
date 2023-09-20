@@ -74,7 +74,7 @@ SELECT
     seller_city, proper(seller_city) as proper_seller_city
 FROM olist_data;
 ```
-![Proper_check](https://github.com/tambej29/Analysis_Insights/blob/main/Olist%20E-commerce%20EDA/pic/Data_transformation/proper_check.png)
+![proper](https://github.com/tambej29/SQL/assets/68528130/cef006ab-e31e-463a-a6dd-cc5e0c542e3e)
 
 User the proper function to perform an update on customer city, and seller city columns.
 ```sql
@@ -83,7 +83,7 @@ UPDATE olist_data
 SET customer_city = proper(customer_city),
 seller_city = proper(seller_city);
 ```
-###3. Update the dataset columns to their proper data types.
+### 3. Update the dataset columns to their proper data types.
 Create a store procedure that will update date columns to date and alter the data types to date
 ```sql
 /*
@@ -124,7 +124,7 @@ CALL date_update('shipping_limit_date');
 ```
 Check the dataset datatype (Image order: before update, after update)
 
-![before](https://github.com/tambej29/Analysis_Insights/blob/main/Olist%20E-commerce%20EDA/pic/Data_transformation/describe.png) ![after](https://github.com/tambej29/Analysis_Insights/blob/main/Olist%20E-commerce%20EDA/pic/Data_transformation/describe_clean.png)
+![before](https://github.com/tambej29/SQL/assets/68528130/1548a1e7-d66a-48cb-8662-b5db6cc458ed) ![after](https://github.com/tambej29/SQL/assets/68528130/2527a4d6-91c5-4083-a929-d9a18a62b7ef)
 
 ### 4. Aggregate the dataset
 ```sql
@@ -138,7 +138,7 @@ SELECT
 FROM olist_data
 ORDER BY customer_id;
 ```
-![Duplicates](https://github.com/tambej29/Analysis_Insights/blob/main/Olist%20E-commerce%20EDA/pic/Data_transformation/duplicated.png)
+![duplicate](https://github.com/tambej29/SQL/assets/68528130/03c0b1da-2c2f-4d19-a406-adfa75f7bd5a)
 
 Notice how customer '00331de1659c7f4fb660c8810e6de3f5' bought 3 of the same product? and the payment_value which is 243.69 is repeated 3 times? If I calculate the total sales, 
 it would be wrong because there are many more duplicates. I will count the order_item_id which will be quantity and aggregate the data.
@@ -170,7 +170,8 @@ GROUP BY
     	) as sbqry;
 ```
 View the newly created data set
-![agg_data](https://github.com/tambej29/Analysis_Insights/blob/main/Olist%20E-commerce%20EDA/pic/Data_transformation/olist_data.png)
+
+![agg_data](https://github.com/tambej29/SQL/assets/68528130/becce501-fba2-4346-a795-33a0d08ed063)
 
 Check the shape of the dataset
 ```sql
@@ -205,6 +206,7 @@ SELECT
 	ROUND(SUM(payment_value), 2)  AS total_sales
 FROM agg_data
 ```
+![total_sales](https://github.com/tambej29/SQL/assets/68528130/8e1aa2be-b22d-48fc-ab7e-93bd1e60388a)
 
 How many orders have been placed?
 ```sql
@@ -213,6 +215,7 @@ SELECT
 	COUNT(DISTINCT order_id) AS total_orders
 FROM agg_data;
 ```
+![total_orders](https://github.com/tambej29/SQL/assets/68528130/880a6d96-1918-4c1a-83ee-056cafa3787b)
 
 Waht are the top and bottom 10 products by sales?
 ```sql
@@ -232,6 +235,7 @@ FROM agg_data
 GROUP BY product_name
 ORDER BY total_sales_by_product LIMIT 10;
 ```
+![top product sales](https://github.com/tambej29/SQL/assets/68528130/fd3fbefc-0e44-4e19-8b5c-397cc279711c) ![bottom 10 product](https://github.com/tambej29/SQL/assets/68528130/c1c93416-5c4a-4b5e-9545-3a9711757bf4)
 
 What are the top and bottom 10 products by orders?
 ```sql
@@ -251,6 +255,7 @@ FROM agg_data
 GROUP BY product_name
 ORDER BY total_orders_by_product ASC LIMIT 10;
 ```
+![top product order](https://github.com/tambej29/SQL/assets/68528130/5756fb24-62f2-4bd7-bcd0-ac673f92a014) ![bottom product order](https://github.com/tambej29/SQL/assets/68528130/56fc95a2-1e7f-49e4-8ebd-8a604f0e4a1a)
 
 Which cities are generating the most sales and orders?
 ```sql
@@ -270,6 +275,7 @@ FROM agg_data
 GROUP BY customer_state
 ORDER BY total_sales DESC LIMIT 10;
 ```
+![city order](https://github.com/tambej29/SQL/assets/68528130/dd075f28-99ff-4589-9454-ad3c70cea7dc) ![city sale](https://github.com/tambej29/SQL/assets/68528130/fe04c270-f74f-4d00-9769-0fc1870f0ca7)
 
 What hours of the day do most orders occur?
 ```sql
@@ -280,6 +286,7 @@ FROM agg_data
 GROUP BY hr
 ORDER BY total_order DESC;
 ```
+![hour](https://github.com/tambej29/SQL/assets/68528130/54f8597b-123e-4988-8989-e47a084d65e9)
 
 When are the most orders placed during the week?
 ```sql
@@ -290,6 +297,8 @@ FROM agg_data
 GROUP BY day
 ORDER BY total_order DESC;
 ```
+![day](https://github.com/tambej29/SQL/assets/68528130/dea36b14-f0a2-4e5f-96b8-7fc72529c91e)
+
 
 Montly order trend
 ```sql
@@ -300,6 +309,7 @@ FROM agg_data
 GROUP BY month
 ORDER BY total_order DESC;
 ```
+![month](https://github.com/tambej29/SQL/assets/68528130/98b624c6-d27e-4b95-a479-752c9e97499f)
 
 ### Shipping Insights
 What is the average delivery time?
