@@ -122,7 +122,7 @@ CALL date_update('delivered_date');
 CALL date_update('estimated_delivery_date');
 CALL date_update('shipping_limit_date');
 ```
-Check the dataset datatype (First imagee is before update, second is after update)
+Check the dataset datatype (Image order: before update, after update)
 
 ![before](https://github.com/tambej29/Analysis_Insights/blob/main/Olist%20E-commerce%20EDA/pic/Data_transformation/describe.png) ![after](https://github.com/tambej29/Analysis_Insights/blob/main/Olist%20E-commerce%20EDA/pic/Data_transformation/describe_clean.png)
 
@@ -138,6 +138,8 @@ SELECT
 FROM olist_data
 ORDER BY customer_id;
 ```
+![Duplicates](https://github.com/tambej29/Analysis_Insights/blob/main/Olist%20E-commerce%20EDA/pic/Data_transformation/duplicated.png)
+
 Notice how customer '00331de1659c7f4fb660c8810e6de3f5' bought 3 of the same product? and the payment_value which is 243.69 is repeated 3 times? If I calculate the total sales, 
 it would be wrong because there are many more duplicates. I will count the order_item_id which will be quantity and aggregate the data.
 Create a new table with actual payment_value by using price, freight_value, and quantity.
@@ -168,6 +170,7 @@ GROUP BY
     	) as sbqry;
 ```
 View the newly created data set
+![agg_data](https://github.com/tambej29/Analysis_Insights/blob/main/Olist%20E-commerce%20EDA/pic/Data_transformation/olist_data.png)
 
 Check the shape of the dataset
 ```sql
@@ -191,7 +194,7 @@ SELECT
 FROM shape as s
 JOIN row_cnt as r USING(rn);
 ```
-
+![shape](https://github.com/tambej29/Analysis_Insights/blob/main/Olist%20E-commerce%20EDA/pic/Data_transformation/shape.png)
 ## Data Analysis:
 
 ### Sales Analysis
