@@ -194,7 +194,7 @@ SELECT
 FROM shape as s
 JOIN row_cnt as r USING(rn);
 ```
-![shape](https://github.com/tambej29/Analysis_Insights/blob/main/Olist%20E-commerce%20EDA/pic/Data_transformation/shape.png)
+![shape](https://github.com/tambej29/SQL/assets/68528130/5372b03f-dbb6-41e6-a74a-75c27da6179f)
 ## Data Analysis:
 
 ### Sales Analysis
