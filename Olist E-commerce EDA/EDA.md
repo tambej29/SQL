@@ -1,5 +1,5 @@
 # Olist E-Commerce EDA
-
+![test](https://raw.githubusercontent.com/tambej29/SQL/main/Olist%20E-commerce%20EDA/pic/Customer%20Analysis/Avg_delivery_cust.png)
 ## Data Import:
 ```sql
 -- 		Data Import			--
