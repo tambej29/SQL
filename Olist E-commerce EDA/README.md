@@ -34,3 +34,4 @@ The main aim of this project is to perform a full-scale analysis using SQL for d
    - Average order per customer
    - Preffered customer payment method
 Please visit 
+Click [here](https://github.com/tambej29/SQL/blob/main/Olist%20E-commerce%20EDA/EDA%20Results.md) for to see the EDA.
