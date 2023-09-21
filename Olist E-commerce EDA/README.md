@@ -5,7 +5,7 @@ This is a Brazilian ecommerce public dataset of orders made at Olist Store. The 
 
 # Project Objective:
 
-The main aim of this project is to perform a full-scale analysis using SQL for data cleaning and exploratory data analysis (EDA) on a Brazilian E-commerce Dataset. A BI tool will be used to create an interactive dashboard to visualize insights.
+Perform a comprehensive analysis of a Brazilian e-commerce dataset using SQL for data cleaning and exploratory data analysis (EDA). Create an interactive dashboard using a business intelligence (BI) tool to visualize insights.
 
 # Project Scope:
 
