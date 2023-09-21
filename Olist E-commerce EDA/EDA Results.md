@@ -331,7 +331,7 @@ ORDER BY total_order DESC;
 ```
 ![month](https://github.com/tambej29/SQL/assets/68528130/98b624c6-d27e-4b95-a479-752c9e97499f)
 
-_There is a seasonal variation in order volume, with summer having the highest volume and fall having the lowest volume. This could be due to people preparing for the fall holidays_
+_There is a seasonal variation in order volume, with summer having the highest volume and fall having the lowest volume. This could be due to people preparing for the fall holidays._
 
 ### Shipping Insights
 What is the average delivery time?
@@ -343,6 +343,8 @@ WHERE num_days_to_deliver IS NOT NULL; -- if num_days_to_deliver is NULL then th
 ```
 ![avg delivery](https://github.com/tambej29/SQL/assets/68528130/f6d83552-5871-482d-9c1b-17e70923c04d)
 
+_On average it takes 12 days for orders to be delivered._
+
 What is the ratio between on time deliveries and late deliveries?
 ```sql
 SELECT 
@@ -353,7 +355,9 @@ WHERE order_status = 'delivered';
 ```
 ![image](https://github.com/tambej29/SQL/assets/68528130/653bffb0-3708-468b-b1f2-26578f392289)
 
-Percentage of delivered order vs not delivered
+_The vast majority of orders (92%) are delivered on time, with a small percentage (8%) being delivered late._
+
+What is the percentage of delivered order vs not delivered?
 ```sql
 SELECT 
 	CONCAT(ROUND(COUNT(CASE WHEN order_status = 'delivered' THEN order_id END) / COUNT(order_id) * 100, 2), '%') AS delivered,
@@ -361,6 +365,8 @@ SELECT
 FROM agg_data;
 ```
 ![image](https://github.com/tambej29/SQL/assets/68528130/50826315-f692-4b60-8c73-9202b3cc5b84)
+
+_97.92% of orders are delivered successfully, while the remaining 2.08% of orders are either canceled, lost in processing, or shipped but never delivered._
 
 ### Customer insights
 Waht is the average customer order quantity?
@@ -371,6 +377,8 @@ FROM agg_data;
 ```
 ![avg order customer](https://github.com/tambej29/SQL/assets/68528130/b49ebc12-1370-4256-a45a-e6388473974d)
 
+_The average number of items purchased per customer is 1._
+
 What payment method do customers preffer to use?
 ```sql
 SELECT
@@ -380,3 +388,5 @@ FROM agg_data
 GROUP BY payment_type;
 ```
 ![payment type](https://github.com/tambej29/SQL/assets/68528130/99895d1b-e266-4b75-82b4-a522563d9c9a)
+
+_Credit cards are the most popular payment method for orders, with 75% of orders being placed using credit cards. Debit cards are much less popular, with only 1.49% of orders being placed using debit cards._
