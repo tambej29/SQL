@@ -196,6 +196,9 @@ FROM shape as s
 JOIN row_cnt as r USING(rn);
 ```
 ![shape](https://github.com/tambej29/SQL/assets/68528130/5372b03f-dbb6-41e6-a74a-75c27da6179f)
+
+_This dataset has 104649 rows and 26 columns._
+
 ## Data Analysis:
 
 ### Sales Analysis
@@ -208,6 +211,8 @@ FROM agg_data
 ```
 ![total_sales](https://github.com/tambej29/SQL/assets/68528130/8e1aa2be-b22d-48fc-ab7e-93bd1e60388a)
 
+_The total sales is R$15,896,305.68_
+
 How many orders have been placed?
 ```sql
 -- Total Orders
@@ -217,7 +222,9 @@ FROM agg_data;
 ```
 ![total_orders](https://github.com/tambej29/SQL/assets/68528130/880a6d96-1918-4c1a-83ee-056cafa3787b)
 
-Waht are the top and bottom 10 products by sales?
+_96515 unique orders were placed._
+
+Waht are the top products by sales and orders?
 ```sql
 -- Top 10 products by sales
 SELECT
@@ -227,18 +234,6 @@ FROM agg_data
 GROUP BY product_name
 ORDER BY total_sales_by_product DESC LIMIT 10;
 
---  Bottom 10 product by sales
-SELECT
-	product_name,
-    	ROUND(SUM(payment_value), 2) AS total_sales_by_product
-FROM agg_data
-GROUP BY product_name
-ORDER BY total_sales_by_product LIMIT 10;
-```
-![top product sales](https://github.com/tambej29/SQL/assets/68528130/fd3fbefc-0e44-4e19-8b5c-397cc279711c) ![bottom 10 product](https://github.com/tambej29/SQL/assets/68528130/c1c93416-5c4a-4b5e-9545-3a9711757bf4)
-
-What are the top and bottom 10 products by orders?
-```sql
 -- Top 10 product by orders
 SELECT
 	product_name,
@@ -246,6 +241,22 @@ SELECT
 FROM agg_data
 GROUP BY product_name
 ORDER BY total_orders_by_product DESC LIMIT 10;
+```
+Image order: Top product by sales, Top product by orders
+
+![top product sales](https://github.com/tambej29/SQL/assets/68528130/fd3fbefc-0e44-4e19-8b5c-397cc279711c) ![top product order](https://github.com/tambej29/SQL/assets/68528130/5756fb24-62f2-4bd7-bcd0-ac673f92a014)
+
+_bed bath table is the most ordered product, even though Health & Beauty product is leading sales._
+
+What are worst products by sales and orders?
+```sql
+--  Bottom 10 product by sales
+SELECT
+	product_name,
+    	ROUND(SUM(payment_value), 2) AS total_sales_by_product
+FROM agg_data
+GROUP BY product_name
+ORDER BY total_sales_by_product LIMIT 10;
 
 -- bottom 10 product by orders
 SELECT
@@ -255,9 +266,11 @@ FROM agg_data
 GROUP BY product_name
 ORDER BY total_orders_by_product ASC LIMIT 10;
 ```
-![top product order](https://github.com/tambej29/SQL/assets/68528130/5756fb24-62f2-4bd7-bcd0-ac673f92a014) ![bottom product order](https://github.com/tambej29/SQL/assets/68528130/56fc95a2-1e7f-49e4-8ebd-8a604f0e4a1a)
+![bottom 10 product](https://github.com/tambej29/SQL/assets/68528130/c1c93416-5c4a-4b5e-9545-3a9711757bf4) ![bottom product order](https://github.com/tambej29/SQL/assets/68528130/56fc95a2-1e7f-49e4-8ebd-8a604f0e4a1a)
 
-Which cities are generating the most sales and orders?
+_Security & Services is the product that has performed the most poorly compared to other products both in total sales and orders._
+
+Which cities are generating the most orders and sales?
 ```sql
 -- Top 10 cities by orders
 SELECT
@@ -269,13 +282,17 @@ ORDER BY orders_count DESC LIMIT 10;
 
 -- Top 10 city by sales
 SELECT
-	customer_state,
+	customer_city,
     	ROUND(SUM(payment_value), 2)  AS total_sales
 FROM agg_data
-GROUP BY customer_state
+GROUP BY customer_city
 ORDER BY total_sales DESC LIMIT 10;
 ```
+Images order: Top cities by order, Top cities by sales
+
 ![city order](https://github.com/tambej29/SQL/assets/68528130/dd075f28-99ff-4589-9454-ad3c70cea7dc) ![city sale](https://github.com/tambej29/SQL/assets/68528130/fe04c270-f74f-4d00-9769-0fc1870f0ca7)
+
+_Sao Paulo is the city that generated the most sales, followed by Rio De Janeiro._
 
 What hours of the day do most orders occur?
 ```sql
@@ -288,6 +305,8 @@ ORDER BY total_order DESC;
 ```
 ![hour](https://github.com/tambej29/SQL/assets/68528130/54f8597b-123e-4988-8989-e47a084d65e9)
 
+_The peak ordering time is 4 PM, but there is a steady flow of orders throughout the day from 10 AM to 10 PM._
+
 When are the most orders placed during the week?
 ```sql
 SELECT
@@ -299,6 +318,7 @@ ORDER BY total_order DESC;
 ```
 ![day](https://github.com/tambej29/SQL/assets/68528130/dea36b14-f0a2-4e5f-96b8-7fc72529c91e)
 
+_The highest volume of orders occurs on Monday, and the number of orders placed decreases each day of the week._
 
 Montly order trend
 ```sql
@@ -310,6 +330,8 @@ GROUP BY month
 ORDER BY total_order DESC;
 ```
 ![month](https://github.com/tambej29/SQL/assets/68528130/98b624c6-d27e-4b95-a479-752c9e97499f)
+
+_There is a seasonal variation in order volume, with summer having the highest volume and fall having the lowest volume. This could be due to people preparing for the fall holidays_
 
 ### Shipping Insights
 What is the average delivery time?
