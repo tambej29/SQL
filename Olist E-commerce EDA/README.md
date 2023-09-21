@@ -34,4 +34,4 @@ Perform a comprehensive analysis of a Brazilian e-commerce dataset using SQL for
    - Average order per customer
    - Preffered customer payment method
 
-Click [here](https://github.com/tambej29/SQL/blob/main/Olist%20E-commerce%20EDA/EDA%20Results.md) for to see the EDA.
+Click [here](https://github.com/tambej29/SQL/blob/main/Olist%20E-commerce%20EDA/EDA%20Results.md) for the EDA.
