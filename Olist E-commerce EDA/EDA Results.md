@@ -21,7 +21,7 @@ IGNORE 1 ROWS
 - Product_cat_translation: Translates the product_category_name to english.
 
 ## Data Transformation:
-### 1. Join all the datasets, rename some columns for readability, and leave unnecessary columns.
+### 1. Combine all of the datasets into a single dataset, rename some of the columns to make them easier to read, and remove any columns that are not needed.
 ```sql
 CREATE TABLE temp_t
 SELECT
@@ -46,8 +46,8 @@ SELECT
 FROM temp_t as t
 JOIN sellers as s USING(seller_id);
 ```
-### 2. Create a function to proper case customer_city and seller_city.
-This function can be use to capitalize the first letter of every word withing a row, like the PROPER() function in Excel
+### 2. Create a function to proper case customer_city and seller_city
+This function can be use to capitalize the first letter of every word withing a row, like the PROPER() function in Excel.
 ```sql
 DELIMITER //
 CREATE FUNCTION proper(str VARCHAR(500))
@@ -84,7 +84,8 @@ SET customer_city = proper(customer_city),
 seller_city = proper(seller_city);
 ```
 ### 3. Update the dataset columns to their proper data types.
-Create a store procedure that will update date columns to date and alter the data types to date
+Create a store procedure that will update date columns to datetime and alter the data types to datetime.
+Doing this will make it easier to perform any date related operations.
 ```sql
 /*
 This procedure will first update the selected column to a date column, then will use the alter statement to change
@@ -270,7 +271,7 @@ ORDER BY total_orders_by_product ASC LIMIT 10;
 
 _Security & Services is the product that has performed the most poorly compared to other products both in total sales and orders._
 
-Which cities are generating the most orders and sales?
+Which cities generated the most orders and sales?
 ```sql
 -- Top 10 cities by orders
 SELECT
@@ -320,7 +321,7 @@ ORDER BY total_order DESC;
 
 _The highest volume of orders occurs on Monday, and the number of orders placed decreases each day of the week._
 
-Montly order trend
+What is the montly order trend?
 ```sql
 SELECT
 	MONTHNAME(order_date) AS month,
