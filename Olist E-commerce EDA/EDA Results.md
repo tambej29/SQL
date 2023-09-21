@@ -392,8 +392,6 @@ GROUP BY payment_type;
 
 _Credit cards are the most popular payment method for orders, with 75% of orders being placed using credit cards. Debit cards are much less popular, with only 1.49% of orders being placed using debit cards._
 
-Please visit ![Dashboard](https://public.tableau.com/app/profile/jordan.t8456/viz/OlistE-Commerce_16952593429070/HomeDashboard#1) for an interactive dashboards.
-
-Click ![script](https://github.com/tambej29/SQL/blob/main/Olist%20E-commerce%20EDA/Olis_Ecommerce%20EDA_script.sql) for EDA SQL script.
+Please visit [Dashboard](https://public.tableau.com/app/profile/jordan.t8456/viz/OlistE-Commerce_16952593429070/HomeDashboard#1) for an interactive dashboards. And [SQL Script](https://github.com/tambej29/SQL/blob/main/Olist%20E-commerce%20EDA/Olis_Ecommerce%20EDA_script.sql) for EDA SQL script.
 
 ✨Thank you✨
