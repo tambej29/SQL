@@ -11,7 +11,7 @@ Perform a comprehensive analysis of a Brazilian e-commerce dataset using SQL for
 
 ## Data Transformation:
 1. Renaming Column and Tables for better readability
-2. Checking for blanks and empty strings
+2. Checking for blanks and empty rows
 3. Updating Formats and Modifying Datatype
 4. Droping unnecessary columns
 
@@ -21,17 +21,17 @@ Perform a comprehensive analysis of a Brazilian e-commerce dataset using SQL for
    - Total sales
    - Top 10 product by sales
    - Top 10 city by orders
-   - Peak ORDER BY the day
+   - Hourly trend
+   - Daily trend
    - Monthly order trend
-   - Peak ORDER BY hour
   
 2. **Shipping Analysis**
    - Average delivery time
    - Percentage of on time deliveries vs late deliveries
-   - Percentage of delivered order vs not delivered
+   - Percentage of delivered orders vs not delivered
   
 3. **Customer Analysis**
    - Average order per customer
-   - Preffered customer payment method
+   - Preffered customers payment method
 
 Click [here](https://github.com/tambej29/SQL/blob/main/Olist%20E-commerce%20EDA/EDA%20Results.md) for the EDA.
