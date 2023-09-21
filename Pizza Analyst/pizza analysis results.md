@@ -1,42 +1,5 @@
 # :pizza:Pizza Sales Analysis
 
-## These are the questions that needs to be answered
-
-```SQL
-/*
-KPI
-1. Total Revenue
-2. Total Pizza Sold
-3. Total Orders
-4. Average Order Value
-5. Avg Pizzas Per Order
-
------------------------------------------------------------------------------------------------------
-SECTOR ANALYSIS
-1. What is the revenue of pizza across different categories?
-2. What is the revenue of pizza accross different size?
-
------------------------------------------------------------------------------------------------------
-SEASONAL ANALYSIS
-1. Which days of the week have the highest number of orders?
-2. At what time do most orders occur?
-3. What's the weekly trend?
-3. Which month has the highest revenue?
-
------------------------------------------------------------------------------------------------------
-
-PIZZA ANALYSIS
-1. Which is the highest and cheapest pizza price?
-2. Which pizza is the favorite of customers (most order pizza)?
-3. Percentage of sales by pizza category
-4. Percentage of sales by pizza size
-5. Top 5 Best sellers
-6. Bottom 5 worst sellers
-Which ingredients does the restaurant need to make sure they have on hand to make the ordered pizzas?
------------------------------------------------------------------------------------------------------
-*/
-```
-
 ### KPI
 
 1. What is the total revenu?
