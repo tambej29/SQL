@@ -345,12 +345,11 @@ LIMIT 10;
 _Garlic is the overall most used ingredient, followed by tomatoes._
 
 ## Summary:
-- Most orders are place during (lunch and evening) and on Fridays.
-- Classic Pizzas are customers favorire and contribute to about 26% of the sales
-- Large pizzas contribute to about 45% of the sales
-- The Classic Deluxed is the overall most ordered pizza
-- The Thai Chiken Pizza yielded the most sales, but the Classic deluxed Pizza is the best selling pizza
-- The Brie Carre Pizza is the worst selling pizza
+- The majority of orders are placed during lunch and the evening hours, with the highest volume of orders occurring on Fridays.
+- Classic pizzas are the most popular among customers, accounting for approximately 26% of total sales.
+- Large pizzas contribute to approximately 45% of total sales
+- The Thai Chicken Pizza generated the highest sales, but the Classic Deluxe Pizza is the overall best-selling pizza.
+- The Brie Carre Pizza is the worst-performing pizza in both sales and orders.
 
 Please Visit [Pizza dashboard](https://public.tableau.com/app/profile/jordan.t8456/viz/PizzaDashboard_16926530489230/Home) to see a visual representation, and [SQL Script](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/pizza%20analyis%20script.sql) for the script.
 
