@@ -1,3 +1,7 @@
+![image](https://github.com/tambej29/SQL/assets/68528130/4166f449-a001-4171-9b8c-102612c4cece)
+
+
+
 # :pizza:Pizza Sales Analysis
 
 ### KPI
