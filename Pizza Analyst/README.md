@@ -15,3 +15,24 @@ The objective of this analysis is to comprehensively analyze the pizza sales dat
 Click [here](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/pizza%20analysis%20results.md) for the analysis.
 
 
+<details>
+  <summary>
+    view table
+  </summary>
+  check this out! This is a test!
+  
+| emp_id | emp_name | manager_name | level |
+|--------|----------|--------------|-------|
+| 1      | Shripadh | ceo          | 1     |
+| 7      | Asha     | Shripadh     | 2     |
+| 8      | Maryam   | Shripadh     | 2     |
+| 5      | Michael  | Asha         | 3     |
+| 6      | Arvind   | Asha         | 3     |
+| 9      | Reshma   | Maryam       | 3     |
+| 10     | Akshay   | Maryam       | 3     |
+| 2      | Satya    | Michael      | 4     |
+| 3      | Jia      | Michael      | 4     |
+| 4      | David    | Michael      | 4     |
+
+
+</details>
