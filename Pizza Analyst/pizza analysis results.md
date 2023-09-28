@@ -9,13 +9,13 @@ SELECT CONCAT('$', ROUND(SUM(quantity * price), 2)) as Revenu
 FROM pizza_details;
 ```
 <details>
-	<summary>
-		Result:
-	</summary>
+<summary>
+Result:
+</summary>
 	
-	| Revenu     |
-	|------------|
-	| $817860.05 |
+| Revenu     |
+|------------|
+| $817860.05 |
  
 </details>
 
@@ -25,8 +25,16 @@ FROM pizza_details;
 SELECT SUM(quantity) as Total_pizza_sold
 FROM pizza_details;
 ```
+<details>
+<summary>
+Result:
+</summary>
 
-![pizza sold](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/A-KPIS/Total_pizza_sold.png)
+| Total_pizza_sold |
+|------------------|
+| 49574            |
+		 	
+</details>
 
 3. What is the total orders?
 
@@ -34,8 +42,16 @@ FROM pizza_details;
 SELECT COUNT(DISTINCT order_id) total_orders
 FROM pizza_details;
 ```
+<details>
+<summary>
+Result:
+</summary>
 
-![tota_revenue](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/A-KPIS/Total_orders.png)
+| total_orders |
+|--------------|
+| 21350        |
+
+</details>
 
 4. What is the average order price?
 
@@ -44,8 +60,16 @@ SELECT
 	CONCAT('$', round(SUM(quantity * price) / COUNT(DISTINCT order_id), 2)) as Avg_order_value
 FROM pizza_details;
 ```
+<details>
+<summary>
+Result:
+</summary>
+	
+| Avg_order_value |
+|-----------------|
+| $38.31          |
 
-![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/A-KPIS/Average_order_value.png)
+</details>
 
 5. What is the average pizza(s) per order?
 
@@ -54,7 +78,16 @@ SELECT
 	round(SUM(quantity) / COUNT(DISTINCT order_id), 2) as avg_pizza_per_order
 FROM order_details;
 ```
-![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/A-KPIS/Avg_pizza_per_order.png)
+<details>
+<summary>
+Result:
+</summary>
+
+| avg_pizza_per_order |
+|---------------------|
+| 2.32                |
+
+</details>
 
 ### Pizza Category and Size
 
@@ -70,9 +103,20 @@ FROM pizza_details
 GROUP BY category
 ORDER BY 2 DESC;
 ```
-![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Sector%20Analyst/category.png)
+<details>
+<summary>
+Result:
+</summary>
+
+| category | revenu     | total_order | pizza_sold |
+|----------|------------|-------------|------------|
+| Classic  | $220053.1  | 10859       | 14888      |
+| Supreme  | $208197    | 9085        | 11987      |
+| Chicken  | $195919.5  | 8536        | 11050      |
+| Veggie   | $193690.45 | 8941        | 11649      |
 
 _Classic pizzas have yielded the most revenue_
+</details>
 
 2. What is the total revenue and the # of orders per size?
 
@@ -86,13 +130,30 @@ FROM pizza_details
 GROUP BY size
 ORDER BY 2 DESC;
 ```
-![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Sector%20Analyst/size.png)
+<details>
+<summary>
+Result:
+</summary>
 
-_Large pizza have yielded the most revenue_
+| size | revenu    | total_order |
+|------|-----------|-------------|
+| L    | 375318.7  | 12736       |
+| M    | 249382.25 | 11159       |
+| S    | 178076.5  | 10490       |
+| XL   | 14076     | 544         |
+| XXL  | 1006.6    | 28          |
+
+_Large pizzas have generated the most sales._
+</details>
 
 ### Trend Analysis
 
 1. What is the peak time for orders?
+
+<details>
+<summary>
+Result:
+</summary>
 
 ```SQL
 SELECT
@@ -114,7 +175,14 @@ FROM pizza_details
 GROUP BY Time_range, time_category
 ORDER BY total_order DESC;
 ```
-![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Seasonal%20Analysis/time_range%20trend.png)
+
+| Time_range | time_category | total_order | Pizza_sold |
+|------------|---------------|-------------|------------|
+| 12-17      | Afternoon     | 9651        | 22692      |
+| 17-20      | Evening       | 6050        | 13357      |
+| 9-12       | Morning       | 3760        | 9526       |
+| 20-23      | Night         | 1889        | 3999       |
+
 ```SQL
 SELECT
 	HOUR(time) as order_hour,
@@ -124,9 +192,27 @@ FROM pizza_details
 GROUP BY order_hour
 ORDER BY order_hour;
 ```
-![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Seasonal%20Analysis/hourly_trend%20for%20pizza_sold.png)
 
-_Peak orders are during lunch and in the early evening_
+| order_hour | Total_orders | Pizza_sold |
+|------------|--------------|------------|
+| 9          | 1            | 4          |
+| 10         | 8            | 18         |
+| 11         | 1231         | 2728       |
+| 12         | 2520         | 6776       |
+| 13         | 2455         | 6413       |
+| 14         | 1472         | 3613       |
+| 15         | 1468         | 3216       |
+| 16         | 1920         | 4239       |
+| 17         | 2336         | 5211       |
+| 18         | 2399         | 5417       |
+| 19         | 2009         | 4406       |
+| 20         | 1642         | 3534       |
+| 21         | 1198         | 2545       |
+| 22         | 663          | 1386       |
+| 23         | 28           | 68         |
+
+_Customers are most likely to order pizza during lunch and early evening._
+</details>
 
 2. What day of the week has the highest volume of orders?
 
@@ -139,9 +225,23 @@ FROM pizza_details
 GROUP BY Order_day
 ORDER BY total_order DESC;
 ```
-![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Seasonal%20Analysis/Weekday%20orders.png)
+<details>
+<summary>
+Result:
+</summary>
+
+| Order_day | total_order | Pizza_sold |
+|-----------|-------------|------------|
+| Friday    | 3538        | 8242       |
+| Thursday  | 3239        | 7478       |
+| Saturday  | 3158        | 7493       |
+| Wednesday | 3024        | 6946       |
+| Tuesday   | 2973        | 6895       |
+| Monday    | 2794        | 6485       |
+| Sunday    | 2624        | 6035       |
 
 _Most customers order pizza on Fiday_
+</details>
 
 3. What is weekly trend for total orders?
 
@@ -154,9 +254,70 @@ FROM pizza_details
 GROUP BY Order_day
 ORDER BY total_order DESC;
 ```
-![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Seasonal%20Analysis/Week_trend%201.png) ![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Seasonal%20Analysis/Week_trend%202.png)
+<details>
+<summary>
+Result:
+</summary>
+
+| order_year | Order_week | total_order | Pizza_sold |      
+| 2015       | 1          | 254         | 591        |
+| 2015       | 2          | 427         | 972        |
+| 2015       | 3          | 400         | 917        |
+| 2015       | 4          | 415         | 968        |
+| 2015       | 5          | 436         | 975        |
+| 2015       | 6          | 422         | 988        |
+| 2015       | 7          | 423         | 976        |
+| 2015       | 8          | 393         | 933        |
+| 2015       | 9          | 409         | 972        |
+| 2015       | 10         | 420         | 996        |
+| 2015       | 11         | 404         | 965        |
+| 2015       | 12         | 416         | 949        |
+| 2015       | 13         | 427         | 954        |
+| 2015       | 14         | 433         | 1025       |
+| 2015       | 15         | 408         | 968        |
+| 2015       | 16         | 414         | 967        |
+| 2015       | 17         | 437         | 975        |
+| 2015       | 18         | 423         | 934        |
+| 2015       | 19         | 399         | 985        |
+| 2015       | 20         | 458         | 1046       |
+| 2015       | 21         | 414         | 953        |
+| 2015       | 22         | 390         | 924        |
+| 2015       | 23         | 423         | 997        |
+| 2015       | 24         | 418         | 962        |
+| 2015       | 25         | 410         | 920        |
+| 2015       | 26         | 416         | 980        |
+| 2015       | 27         | 474         | 1066       |
+| 2015       | 28         | 417         | 950        |
+| 2015       | 29         | 420         | 981        |
+| 2015       | 30         | 433         | 985        |
+| 2015       | 31         | 419         | 926        |
+| 2015       | 32         | 426         | 955        |
+| 2015       | 33         | 435         | 994        |
+| 2015       | 34         | 407         | 959        |
+| 2015       | 35         | 394         | 866        |
+| 2015       | 36         | 397         | 945        |
+| 2015       | 37         | 435         | 1009       |
+| 2015       | 38         | 423         | 974        |
+| 2015       | 39         | 288         | 674        |
+| 2015       | 40         | 433         | 1008       |
+| 2015       | 41         | 334         | 794        |
+| 2015       | 42         | 386         | 933        |
+| 2015       | 43         | 352         | 876        |
+| 2015       | 44         | 371         | 810        |
+| 2015       | 45         | 394         | 970        |
+| 2015       | 46         | 400         | 944        |
+| 2015       | 47         | 392         | 908        |
+| 2015       | 48         | 491         | 1186       |
+| 2015       | 49         | 424         | 1013       |
+| 2015       | 50         | 417         | 959        |
+| 2015       | 51         | 430         | 962        |
+| 2015       | 52         | 298         | 693        |
+| 2015       | 53         | 171         | 442        |
 
 _The 48Th week which is late november is the best performing week_
+
+</details>
+
 
 4. What is the montly revenue trend?
 
@@ -168,9 +329,28 @@ FROM pizza_details
 GROUP BY month
 ORDER BY Monthly_revenue DESC;
 ```
-![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Seasonal%20Analysis/monthly_trend.png)
+<details>
+<summary>
+Result:
+</summary>
 
-_July is the best performing month, while October is the worst one._
+| Month     | Monthly_revenue |
+|-----------|-----------------|
+| July      | $72557.9        |
+| May       | $71402.75       |
+| March     | $70397.1        |
+| November  | $70395.35       |
+| January   | $69793.3        |
+| April     | $68736.8        |
+| August    | $68278.25       |
+| June      | $68230.2        |
+| February  | $65159.6        |
+| December  | $64701.15       |
+| September | $64180.05       |
+| October   | $64027.6        |
+
+_July is the most profitable month, while October is the least profitable month._
+</details>
 
 ### Pizza Analysis
 
@@ -189,7 +369,7 @@ FROM pizza_details
 ORDER BY price DESC) as a
 WHERE price in (a.max_price, a.min_price);
 ```
-![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Pizza%20analysis/highes_lowest%20price%20pizza.png)
+
 
 _The cheapes pizzas are price at $9.75 while the most expensive ones are priced at $35.95._
 
