@@ -21,8 +21,9 @@ Click [here](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/pizza%20a
   </summary>
   check this out! This is a test!
   
++--------+----------+--------------+-------+
 | emp_id | emp_name | manager_name | level |
-|--------|----------|--------------|-------|
++--------+----------+--------------+-------+
 | 1      | Shripadh | ceo          | 1     |
 | 7      | Asha     | Shripadh     | 2     |
 | 8      | Maryam   | Shripadh     | 2     |
@@ -33,6 +34,5 @@ Click [here](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/pizza%20a
 | 2      | Satya    | Michael      | 4     |
 | 3      | Jia      | Michael      | 4     |
 | 4      | David    | Michael      | 4     |
-
 
 </details>
