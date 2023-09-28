@@ -240,7 +240,7 @@ Result:
 | Monday    | 2794        | 6485       |
 | Sunday    | 2624        | 6035       |
 
-_Most customers order pizza on Fiday_
+_Most customers order pizza on Friday_
 </details>
 
 3. What is weekly trend for total orders?
