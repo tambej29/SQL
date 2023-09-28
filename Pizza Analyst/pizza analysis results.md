@@ -8,8 +8,16 @@
 SELECT CONCAT('$', ROUND(SUM(quantity * price), 2)) as Revenu
 FROM pizza_details;
 ```
-
-![tota_revenue](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/A-KPIS/total_revenue.png)
+<details>
+	<summary>
+		Result:
+	</summary>
+	
+	| Revenu     |
+	|------------|
+	| $817860.05 |
+ 
+</details>
 
 2. How many pizzas have been sold?
 
