@@ -259,7 +259,8 @@ ORDER BY total_order DESC;
 Result:
 </summary>
 
-| order_year | Order_week | total_order | Pizza_sold |      
+| order_year | Order_week | total_order | Pizza_sold |
+|------------|------------|-------------|------------|
 | 2015       | 1          | 254         | 591        |
 | 2015       | 2          | 427         | 972        |
 | 2015       | 3          | 400         | 917        |
@@ -354,7 +355,7 @@ _July is the most profitable month, while October is the least profitable month.
 
 ### Pizza Analysis
 
-1. Which is the highest and lowest selling pizza?
+1. Which is the highest priced and lowest priced pizza?
 
 ```sql
 SELECT DISTINCT *
@@ -369,11 +370,20 @@ FROM pizza_details
 ORDER BY price DESC) as a
 WHERE price in (a.max_price, a.min_price);
 ```
+<detailS>
+<summary>
+result:
+</summary>
 
+ | name               | price | Max_price | Min_price | Avg_price |
+|---------------------|-------|-----------|-----------|-----------|
+| The Greek Pizza     | 35.95 | 35.95     | 9.75      | 16.49     |
+| The Pepperoni Pizza | 9.75  | 35.95     | 9.75      | 16.49     |
 
 _The cheapes pizzas are price at $9.75 while the most expensive ones are priced at $35.95._
+</detailS>
 
-2. What is the most ordered pizza?
+2. Which pizza is the most ordered?
 
 ```sql
 -- with size
@@ -386,9 +396,19 @@ GROUP BY name, size
 ORDER BY total_orders DESC
 LIMIT 1;
 ```
-![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Pizza%20analysis/Most_orderd_pizza.png)
+<details>
+<summary>
+Result:
+</summary>
+
+| name               | size | Total_orders |
+|--------------------|------|--------------|
+| The Big Meat Pizza | S    | 1811         |
 
 _The small Big Meat Pizza is the most orderd pizza_
+</details>
+
+2. Which pizza is the most ordered? Excluding size.
 ```sql
 -- Without size
 SELECT 
@@ -399,12 +419,19 @@ GROUP BY name
 ORDER BY total_orders DESC
 LIMIT 1;
 ```
-![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Pizza%20analysis/Most_orderd_pizza_no_size.png)
+<details>
+<summary>
+Result:
+</summary>
 
-_The Classic Deluxed is the all time favorite pizza._
+| name                     | Total_orders |
+|--------------------------|--------------|
+| The Classic Deluxe Pizza | 2416         |
 
+_The Classic Deluxed is the most popular pizza among customers._
+</details>
 
-3. What is the sales percentage by category?
+4. What is the sales percentage by category?
 
 ```sql
 SELECT
@@ -415,11 +442,22 @@ FROM pizza_details
 GROUP BY category
 ORDER BY Total_sales DESC;
 ```
-![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Pizza%20analysis/percent%20of%20sales%20by%20category.png)
+<details>
+<summary>
+Result:
+</summary>
 
-_Classic pizzas are the all time faborite by customers._
+| category | Total_sales | Percentage |
+|----------|-------------|------------|
+| Classic  | $220053.1   | 26.91%     |
+| Supreme  | $208197     | 25.46%     |
+| Chicken  | $195919.5   | 23.96%     |
+| Veggie   | $193690.45  | 23.68%     |
 
-4. What is the sales percentage by size?
+_Classic pizzas have generated the most sales._
+</details>
+
+5. What is the sales percentage by size?
 
 ```sql
 SELECT
@@ -430,11 +468,24 @@ FROM pizza_details
 GROUP BY size
 ORDER BY Total_sales DESC;
 ```
-![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Pizza%20analysis/percent%20of%20sales%20by%20size.png)
+<details>
+<summary>
+Result:
+</summary>
 
-_Large pizzas generated the most sales, while xx large has only contributed to 0.12 percent of sales._
+| size | Total_sales | Percentage |
+|------|-------------|------------|
+| L    | $375318.7   | 45.89%     |
+| M    | $249382.25  | 30.49%     |
+| S    | $178076.5   | 21.77%     |
+| XL   | $14076      | 1.72%      |
+| XXL  | $1006.6     | 0.12%      |
 
-5. Top 5 sellers by revenue, quantity, and total orders
+_Large pizzas generated the most sales, while xx large has only contributed to 0.12% of total sales._
+</details>
+
+
+6. Top 5 sellers by revenue, quantity, and total orders
 ```sql
 -- Top 5 Best sellers by Revenue
 SELECT
@@ -466,7 +517,7 @@ _Image order :point_up:: revenue, total quantity, total orders_
 
 _Although The Thai Chicken Pizza has generate more revenue, The Classic Deluxe Pizza is the best selling pizza._
 
-6. Bottom 5 sellers by revenue, quantity, and total orders
+7. Bottom 5 sellers by revenue, quantity, and total orders
 
 ```sql
 -- Top 5 bottom sellers by Revenue
@@ -499,7 +550,7 @@ _Image order: revenue :point_up:, total quantity, total orders_
 
 _The Brie Carre Pizza is the overall worst selling pizza._
 
-7. What are the most used ingredients?
+8. What are the most used ingredients?
 
 ```sql
 WITH RECURSIVE num as
@@ -508,7 +559,7 @@ WITH RECURSIVE num as
 UNION ALL
 	SELECT n + 1 FROM num
 	WHERE n < 10
-    ),
+	),
 ingredient as
 	(
 	SELECT
@@ -519,7 +570,7 @@ ingredient as
 	FROM num
     	JOIN pizza_details as pd
 		on n <= length(ingredients) - length(replace(ingredients, ',', '')) + 1
-    )
+	)
 SELECT
 	ingredient_name,
 	COUNT(ingredient_name) as ingredient_count
@@ -528,9 +579,26 @@ GROUP BY ingredient_name
 ORDER BY ingredient_count DESC
 LIMIT 10;
 ```
-![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Pizza%20analysis/Ingredient%20count.png)
+<details>
+<summary>
+Result:
+</summary>
 
-_Garlic is the overall most used ingredient, followed by tomatoes._
+| ingredient_name   | ingredient_count |
+|-------------------|------------------|
+| Garlic            | 27422            |
+| Tomatoes          | 23694            |
+| Red Onions        | 19547            |
+| Red Peppers       | 16284            |
+| Chicken           | 8443             |
+| Mushrooms         | 8114             |
+| Mozzarella Cheese | 6605             |
+| Pepperoni         | 6542             |
+| Green Olives      | 6174             |
+| Artichokes        | 5682             |
+
+_Garlic is and tomatoes are the most used ingredient._
+</details>
 
 ## Summary:
 - The majority of orders are placed during lunch and the evening hours, with the highest volume of orders occurring on Fridays.
