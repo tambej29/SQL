@@ -21,18 +21,9 @@ Click [here](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/pizza%20a
   </summary>
   check this out! This is a test!
   
-+--------+----------+--------------+-------+
-| emp_id | emp_name | manager_name | level |
-+--------+----------+--------------+-------+
-| 1      | Shripadh | ceo          | 1     |
-| 7      | Asha     | Shripadh     | 2     |
-| 8      | Maryam   | Shripadh     | 2     |
-| 5      | Michael  | Asha         | 3     |
-| 6      | Arvind   | Asha         | 3     |
-| 9      | Reshma   | Maryam       | 3     |
-| 10     | Akshay   | Maryam       | 3     |
-| 2      | Satya    | Michael      | 4     |
-| 3      | Jia      | Michael      | 4     |
-| 4      | David    | Michael      | 4     |
+| name                | price | Max_price | Min_price | Avg_price |
+|---------------------|-------|-----------|-----------|-----------|
+| The Greek Pizza     | 35.95 | 35.95     | 9.75      | 16.49     |
+| The Pepperoni Pizza | 9.75  | 35.95     | 9.75      | 16.49     |
 
 </details>
