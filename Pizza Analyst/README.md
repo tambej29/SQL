@@ -18,7 +18,7 @@ Click [here](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/pizza%20a
 <summary>
   View table
 </summary>
-  The sales table captures all ```customer_id``` level purchases with an corresponding ```order_date``` and ```product_id``` information for when and what menu items were ordered.
+
   
 | emp_id | emp_name | manager_name | level |
 |--------|----------|--------------|-------|
