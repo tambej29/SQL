@@ -13,17 +13,3 @@ The objective of this analysis is to comprehensively analyze the pizza sales dat
 - Identify the best- and worst-performing pizzas based on sales and other relevant metrics.
   
 Click [here](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/pizza%20analysis%20results.md) for the analysis.
-
-
-<details>
-  <summary>
-    view table
-  </summary>
-  check this out! This is a test!
-  
-| name                | price | Max_price | Min_price | Avg_price |
-|---------------------|-------|-----------|-----------|-----------|
-| The Greek Pizza     | 35.95 | 35.95     | 9.75      | 16.49     |
-| The Pepperoni Pizza | 9.75  | 35.95     | 9.75      | 16.49     |
-
-</details>
