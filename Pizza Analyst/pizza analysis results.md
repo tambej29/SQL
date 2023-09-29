@@ -418,11 +418,11 @@ FROM pizza_details
 GROUP BY name
 ORDER BY Total_orders DESC LIMIT 5;
 ```
-_Image order :point_up:: revenue, total quantity, total orders_
+_Image order :point_down:: revenue, total quantity, and orders_
 
-![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Pizza%20analysis/top%205%20seller%20by%20revenue.png) 
+![image](https://github.com/tambej29/SQL/assets/68528130/776223cc-5fc1-42fc-8131-84f9edc5b2e0) ![image](https://github.com/tambej29/SQL/assets/68528130/76b322f7-1ae1-4557-ad20-f72ec6d396d2) ![image](https://github.com/tambej29/SQL/assets/68528130/e1dd83db-26bf-455b-b815-ad20cb2124c8)
 
-_Although The Thai Chicken Pizza has generate more revenue, The Classic Deluxe Pizza is the best selling pizza._
+_The Thai Chicken Pizza brings in more money for the restaurant, but the Classic Deluxe Pizza is the more popular choice among customers_
 
 7. Bottom 5 sellers by revenue, quantity, and total orders
 
@@ -451,11 +451,11 @@ FROM pizza_details
 GROUP BY name
 ORDER BY Total_orders ASC LIMIT 5;
 ```
-_Image order: revenue :point_up:, total quantity, total orders_
+_Image order: :point_dowwn: revenue, quantity, and orders_
 
-![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Pizza%20analysis/bottom%205%20sellers%20by%20revenue.png) ![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Pizza%20analysis/bottom%205%20sellers%20by%20quantity.png) ![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Pizza%20analysis/bottom%205%20sellers%20by%20orders.png)
+![image](https://github.com/tambej29/SQL/assets/68528130/fd3be6ed-b15d-4ee6-b56f-97d926a3ea18) ![image](https://github.com/tambej29/SQL/assets/68528130/8ac8def2-a38c-44a7-8805-a25f710055a9) ![image](https://github.com/tambej29/SQL/assets/68528130/1549a22c-7fe9-48ed-a951-f5fd7083a473)
 
-_The Brie Carre Pizza is the overall worst selling pizza._
+_The Brie Carre Pizza is the least popular pizza among customers._
 
 8. What are the most used ingredients?
 
