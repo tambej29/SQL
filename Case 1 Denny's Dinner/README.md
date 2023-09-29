@@ -61,4 +61,7 @@ Danny also requires further information about the ```ranking``` of customer prod
 
 </details>
 
+[Denny's Case 1 result](https://github.com/tambej29/SQL/blob/main/Case%201%20Denny's%20Dinner/Denny's%20case%201%20result.md)
+[Denny's Case 1 SQL script](https://github.com/tambej29/SQL/blob/main/Case%201%20Denny's%20Dinner/Denny's%20Case%201%20Script.sql)
+[Case 2 Pizza Runner](https://github.com/tambej29/SQL/tree/main/Case%202%20Pizza%20Runner)
 
