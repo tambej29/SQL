@@ -1,6 +1,6 @@
 # Denny's Dinner Result
 
-<img src="https://github.com/tambej29/SQL/assets/68528130/4e1c0460-d029-4ff8-af69-69121622857d" width=80% hight=80%>
+<img src="https://github.com/tambej29/SQL/assets/68528130/4e1c0460-d029-4ff8-af69-69121622857d" width=70% hight=70%>
 
 ## 1. What is the total amount each customer spent at the restaurant?
 ```sql
