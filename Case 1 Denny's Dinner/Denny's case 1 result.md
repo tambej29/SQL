@@ -186,6 +186,8 @@ group by 1;
 | B           | 820    |
 | A           | 1370   |
 
+--- 
+
 <details>
 <summary>
 Bonus Question: Join All Things
