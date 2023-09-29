@@ -174,8 +174,8 @@ GROUP BY 1;
 select
 	customer_id,
 	sum(case when product_name = 'sushi' then (price * 20)
-			else (price * 10)
-            end) as points
+		else (price * 10)
+        	end) as points
 from menu as m
 join sales as s
 	using(product_id)
@@ -220,15 +220,15 @@ order by 1,2, 4 desc;
 select *,
 case when member = 'Y' then dense_rank() over (partition by customer_id, member order by order_date)
 -- Partitioning by customer_id and member will allow dense_rank() to only count customer who are member.
-	 else null
-     end as ranking
+	else null
+     	end as ranking
 from
 	(select
 		s.customer_id, s.order_date, m.product_name, price,
 		case when s.customer_id not in (select customer_id from members) then 'N'
-			 when s.order_date >= mb.join_date then 'Y'
-		else 'N'
-		end as member
+			when s.order_date >= mb.join_date then 'Y'
+			else 'N'
+			end as member
 	from members as mb
 	right join sales as s
 		using (customer_id)
