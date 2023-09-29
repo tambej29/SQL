@@ -8,50 +8,31 @@
 SELECT CONCAT('$', ROUND(SUM(quantity * price), 2)) as Revenu
 FROM pizza_details;
 ```
-<details>
-<summary>
-Result:
-</summary>
 	
 | Revenu     |
 |------------|
 | $817860.05 |
  
-</details>
-
 2. How many pizzas have been sold?
 
 ```SQL
 SELECT SUM(quantity) as Total_pizza_sold
 FROM pizza_details;
 ```
-<details>
-<summary>
-Result:
-</summary>
-
 | Total_pizza_sold |
 |------------------|
 | 49574            |
 		 	
-</details>
-
 3. What is the total orders?
 
 ```SQL
 SELECT COUNT(DISTINCT order_id) total_orders
 FROM pizza_details;
 ```
-<details>
-<summary>
-Result:
-</summary>
-
 | total_orders |
 |--------------|
 | 21350        |
 
-</details>
 
 4. What is the average order price?
 
@@ -60,16 +41,9 @@ SELECT
 	CONCAT('$', round(SUM(quantity * price) / COUNT(DISTINCT order_id), 2)) as Avg_order_value
 FROM pizza_details;
 ```
-<details>
-<summary>
-Result:
-</summary>
-	
 | Avg_order_value |
 |-----------------|
 | $38.31          |
-
-</details>
 
 5. What is the average pizza(s) per order?
 
@@ -78,16 +52,9 @@ SELECT
 	round(SUM(quantity) / COUNT(DISTINCT order_id), 2) as avg_pizza_per_order
 FROM order_details;
 ```
-<details>
-<summary>
-Result:
-</summary>
-
 | avg_pizza_per_order |
 |---------------------|
 | 2.32                |
-
-</details>
 
 ### Pizza Category and Size
 
@@ -103,11 +70,6 @@ FROM pizza_details
 GROUP BY category
 ORDER BY 2 DESC;
 ```
-<details>
-<summary>
-Result:
-</summary>
-
 | category | revenu     | total_order | pizza_sold |
 |----------|------------|-------------|------------|
 | Classic  | $220053.1  | 10859       | 14888      |
@@ -116,7 +78,6 @@ Result:
 | Veggie   | $193690.45 | 8941        | 11649      |
 
 _Classic pizzas have yielded the most revenue_
-</details>
 
 2. What is the total revenue and the # of orders per size?
 
@@ -130,11 +91,6 @@ FROM pizza_details
 GROUP BY size
 ORDER BY 2 DESC;
 ```
-<details>
-<summary>
-Result:
-</summary>
-
 | size | revenu    | total_order |
 |------|-----------|-------------|
 | L    | 375318.7  | 12736       |
@@ -144,16 +100,10 @@ Result:
 | XXL  | 1006.6    | 28          |
 
 _Large pizzas have generated the most sales._
-</details>
 
 ### Trend Analysis
 
 1. What is the peak time for orders?
-
-<details>
-<summary>
-Result:
-</summary>
 
 ```SQL
 SELECT
@@ -212,7 +162,6 @@ ORDER BY order_hour;
 | 23         | 28           | 68         |
 
 _Customers are most likely to order pizza during lunch and early evening._
-</details>
 
 2. What day of the week has the highest volume of orders?
 
@@ -225,11 +174,6 @@ FROM pizza_details
 GROUP BY Order_day
 ORDER BY total_order DESC;
 ```
-<details>
-<summary>
-Result:
-</summary>
-
 | Order_day | total_order | Pizza_sold |
 |-----------|-------------|------------|
 | Friday    | 3538        | 8242       |
@@ -241,7 +185,6 @@ Result:
 | Sunday    | 2624        | 6035       |
 
 _Most customers order pizza on Friday_
-</details>
 
 3. What is weekly trend for total orders?
 
@@ -254,10 +197,6 @@ FROM pizza_details
 GROUP BY Order_day
 ORDER BY total_order DESC;
 ```
-<details>
-<summary>
-Result:
-</summary>
 
 | order_year | Order_week | total_order | Pizza_sold |
 |------------|------------|-------------|------------|
@@ -317,9 +256,6 @@ Result:
 
 _The 48Th week which is late november is the best performing week_
 
-</details>
-
-
 4. What is the montly revenue trend?
 
 ```sql
@@ -330,11 +266,6 @@ FROM pizza_details
 GROUP BY month
 ORDER BY Monthly_revenue DESC;
 ```
-<details>
-<summary>
-Result:
-</summary>
-
 | Month     | Monthly_revenue |
 |-----------|-----------------|
 | July      | $72557.9        |
@@ -351,7 +282,6 @@ Result:
 | October   | $64027.6        |
 
 _July is the most profitable month, while October is the least profitable month._
-</details>
 
 ### Pizza Analysis
 
@@ -370,18 +300,13 @@ FROM pizza_details
 ORDER BY price DESC) as a
 WHERE price in (a.max_price, a.min_price);
 ```
-<detailS>
-<summary>
-result:
-</summary>
 
- | name               | price | Max_price | Min_price | Avg_price |
+| name                | price | Max_price | Min_price | Avg_price |
 |---------------------|-------|-----------|-----------|-----------|
 | The Greek Pizza     | 35.95 | 35.95     | 9.75      | 16.49     |
 | The Pepperoni Pizza | 9.75  | 35.95     | 9.75      | 16.49     |
 
 _The cheapes pizzas are price at $9.75 while the most expensive ones are priced at $35.95._
-</detailS>
 
 2. Which pizza is the most ordered?
 
@@ -396,17 +321,12 @@ GROUP BY name, size
 ORDER BY total_orders DESC
 LIMIT 1;
 ```
-<details>
-<summary>
-Result:
-</summary>
 
 | name               | size | Total_orders |
 |--------------------|------|--------------|
 | The Big Meat Pizza | S    | 1811         |
 
 _The small Big Meat Pizza is the most orderd pizza_
-</details>
 
 2. Which pizza is the most ordered? Excluding size.
 ```sql
@@ -419,17 +339,11 @@ GROUP BY name
 ORDER BY total_orders DESC
 LIMIT 1;
 ```
-<details>
-<summary>
-Result:
-</summary>
-
 | name                     | Total_orders |
 |--------------------------|--------------|
 | The Classic Deluxe Pizza | 2416         |
 
 _The Classic Deluxed is the most popular pizza among customers._
-</details>
 
 4. What is the sales percentage by category?
 
@@ -442,11 +356,6 @@ FROM pizza_details
 GROUP BY category
 ORDER BY Total_sales DESC;
 ```
-<details>
-<summary>
-Result:
-</summary>
-
 | category | Total_sales | Percentage |
 |----------|-------------|------------|
 | Classic  | $220053.1   | 26.91%     |
@@ -455,7 +364,6 @@ Result:
 | Veggie   | $193690.45  | 23.68%     |
 
 _Classic pizzas have generated the most sales._
-</details>
 
 5. What is the sales percentage by size?
 
@@ -468,11 +376,6 @@ FROM pizza_details
 GROUP BY size
 ORDER BY Total_sales DESC;
 ```
-<details>
-<summary>
-Result:
-</summary>
-
 | size | Total_sales | Percentage |
 |------|-------------|------------|
 | L    | $375318.7   | 45.89%     |
@@ -482,8 +385,6 @@ Result:
 | XXL  | $1006.6     | 0.12%      |
 
 _Large pizzas generated the most sales, while xx large has only contributed to 0.12% of total sales._
-</details>
-
 
 6. Top 5 sellers by revenue, quantity, and total orders
 ```sql
@@ -579,11 +480,6 @@ GROUP BY ingredient_name
 ORDER BY ingredient_count DESC
 LIMIT 10;
 ```
-<details>
-<summary>
-Result:
-</summary>
-
 | ingredient_name   | ingredient_count |
 |-------------------|------------------|
 | Garlic            | 27422            |
@@ -598,7 +494,6 @@ Result:
 | Artichokes        | 5682             |
 
 _Garlic is and tomatoes are the most used ingredient._
-</details>
 
 ## Summary:
 - The majority of orders are placed during lunch and the evening hours, with the highest volume of orders occurring on Fridays.
