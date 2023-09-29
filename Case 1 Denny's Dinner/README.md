@@ -1,6 +1,7 @@
 # Case Study #1 - Denny's Diner
-  
-![image](https://github.com/tambej29/SQL/assets/68528130/95f5b610-5bb7-4dc7-83f4-53121ce4129d)
+
+<p align="center">
+<img scr="https://github.com/tambej29/SQL/assets/68528130/95f5b610-5bb7-4dc7-83f4-53121ce4129d" width=60% hight=60%>
 
 ## Introduction
 Danny seriously loves Japanese food so in the beginning of 2021, he decides to embark upon a risky venture and opens up a cute little restaurant that sells his 3 favourite foods: sushi, curry and ramen.
@@ -12,5 +13,9 @@ Danny wants to use the data to answer a few simple questions about his customers
 
 He plans on using these insights to help him decide whether he should expand the existing customer loyalty program - additionally he needs help to generate some basic datasets so his team can easily inspect the data without needing to use SQL.
 
+## Datasets
+### [sales](https://github.com/tambej29/SQL/blob/main/Case%201%20Denny's%20Dinner/Datasets/sales.csv)  
+The ```sales``` table captures all the ```customer id``` purchases with an ```order date``` and ```product id``` information for when and what menu items were ordered.
 
-
+### [menu](https://github.com/tambej29/SQL/blob/main/Case%201%20Denny's%20Dinner/Datasets/menu.csv)
+The ```menu``` table maps the ```product id``` to the actual ```product name``` and ```price``` of each menu item.
