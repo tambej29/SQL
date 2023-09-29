@@ -67,8 +67,6 @@ Danny also requires further information about the ```ranking``` of customer prod
 
 [Case 1 Denney's Dinner SQL script](https://github.com/tambej29/SQL/blob/main/Case%201%20Denny's%20Dinner/Denny's%20Case%201%20Script.sql)
 
-[Case 2 Pizza Runner](https://github.com/tambej29/SQL/tree/main/Case%202%20Pizza%20Runner)
-
 #
 
 [8 Week SQL Challenge](https://8weeksqlchallenge.com)
