@@ -427,7 +427,7 @@ _The Thai Chicken Pizza brings in more money for the restaurant, but the Classic
 7. Bottom 5 sellers by revenue, quantity, and total orders
 
 ```sql
--- Top 5 bottom sellers by Revenue
+-- Bottom 5 sellers by Revenue
 SELECT
 	name, 
     	round(SUM(quantity * price), 2) as Revenu
@@ -435,7 +435,7 @@ FROM pizza_details
 GROUP BY name
 ORDER BY Revenu ASC LIMIT 5;
 
--- Top 5 bottom sellers total quantity
+-- Bottom 5 sellers total quantity
 SELECT
 	name, 
     	SUM(quantity) as Total_sold
@@ -443,7 +443,7 @@ FROM pizza_details
 GROUP BY name
 ORDER BY Total_sold ASC LIMIT 5;
 
--- Top 5 bottom sellers total_orders
+-- Bottom 5 sellers total_orders
 SELECT
 	name, 
     	COUNT(DISTINCT order_id) as Total_orders
