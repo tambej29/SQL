@@ -197,8 +197,12 @@ FROM pizza_details
 GROUP BY Order_day
 ORDER BY total_order DESC;
 ```
+<details>
+<summary>
+Result:
+</summary>
 
-| order_year | Order_week | total_order | Pizza_sold |
+ | order_year | Order_week | total_order | Pizza_sold |
 |------------|------------|-------------|------------|
 | 2015       | 1          | 254         | 591        |
 | 2015       | 2          | 427         | 972        |
@@ -255,6 +259,8 @@ ORDER BY total_order DESC;
 | 2015       | 53         | 171         | 442        |
 
 _The 48Th week which is late november is the best performing week_
+</details>
+
 
 4. What is the montly revenue trend?
 
@@ -414,7 +420,7 @@ ORDER BY Total_orders DESC LIMIT 5;
 ```
 _Image order :point_up:: revenue, total quantity, total orders_
 
-![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Pizza%20analysis/top%205%20seller%20by%20revenue.png) ![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Pizza%20analysis/top%205%20seller%20by%20quantity.png) ![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Pizza%20analysis/top%205%20seller%20by%20orders.png)
+![](https://github.com/tambej29/SQL/blob/main/Pizza%20Analyst/Queries%20pictures/Pizza%20analysis/top%205%20seller%20by%20revenue.png) 
 
 _Although The Thai Chicken Pizza has generate more revenue, The Classic Deluxe Pizza is the best selling pizza._
 
