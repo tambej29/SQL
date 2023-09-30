@@ -144,39 +144,113 @@ group by 1;
 | 104         | 2       | 1          |
 | 105         | 1       | 0          |
 
+- _101 had 2 delivered pizzas with no changes made._
+- _102 had 3 delivered pizzas with no changes made._
+- _103 had 3 delivered pizzas, and made changes to all 3 pizzas._
+- _104 had 3 delivered pizzas, and made changes to 2 pizzas._
+- _105 has 1 pizza delivered with no chagnes made._
 
+8. ### How many pizzas were delivered that had both exclusions and extras?
+```sql
+select
+	count(co.pizza_id) as `Pizzas delivered with exclusions & extras`
+from customer_orders as co
+join runner_orders as ro using (order_id)
+join pizza_names as pa using (pizza_id)
+where pickup_time is not null
+and case
+	when (exclusions is not null and length(exclusions) >0)
+	and (extras is not null and length(extras) >0) Then 1
+	else 0
+	end;
+```
+| Pizzas delivered with exclusions & extras |
+|-------------------------------------------|
+| 1                                         |
 
+- _Only 1 pizza was delivered that had both exclusions, and extras._
 
+9. ### What was the total volume of pizzas ordered for each hour of the day?
+```sql
+select
+	extract(hour from order_time) as hour,
+	count(pizza_id) as pizza_ordered
+from customer_orders
+group by 1
+order by 2 desc;
+```
+| hour | pizza_ordered |
+|------|---------------|
+| 18   | 3             |
+| 23   | 3             |
+| 13   | 3             |
+| 21   | 3             |
+| 19   | 1             |
+| 11   | 1             |
 
+- _3 pizzas were ordered at the 18th hour of the day._
+- _3 pizzas were ordered at the 23th hour of the day._
+- _3 pizzas were ordered at the 13th hour of the day._
+- _3 pizzas were ordered at the 21th hour of the day._
+- _1 pizzas were ordered at the 19th hour of the day._
+- _1 pizzas were ordered at the 11th hour of the day._
 
+10. ### What was the volume of orders for each day of the week?
+```sql
+select
+	dayname(order_time) as day,
+	count(order_id) as pizza_ordered
+from customer_orders
+group by 1
+order by 2 desc;
+```
+| day       | pizza_ordered |
+|-----------|---------------|
+| Wednesday | 5             |
+| Saturday  | 5             |
+| Thursday  | 3             |
+| Friday    | 1             |
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- _5 orders made on Wednesday._
+- _5 orders made on Saturday._
+- _3 orders made on Thursday._
+- _1 order made on Friday._
 
 ---
 
 ## B. Runner and Customer Experience
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ---
 
