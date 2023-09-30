@@ -37,8 +37,8 @@ from customer_orders;
 3. ### How many successful orders were delivered by each runner?
 ```sql
 select
-  runner_id,
-  count(order_id) as delivered_orders
+	runner_id,
+  	count(order_id) as delivered_orders
 from runner_orders
 where pickup_time is not null
 group by 1;
@@ -57,7 +57,7 @@ group by 1;
 ```sql
 select
 	pa.pizza_name,
-  count(co.pizza_id) pizza_delivered
+  	count(co.pizza_id) pizza_delivered
 from runner_orders as ro
 join customer_orders as co
 	using(order_id)
@@ -78,8 +78,8 @@ group by 1;
 ```sql
 select
 	customer_id,
-  count(case when pizza_name = 'meatlovers' then pizza_id end) as meatlovers_cnt,
-  count(case when pizza_name = 'vegetarian' then pizza_id end) as vegetarian_cnt
+  	count(case when pizza_name = 'meatlovers' then pizza_id end) as meatlovers_cnt,
+  	count(case when pizza_name = 'vegetarian' then pizza_id end) as vegetarian_cnt
 from customer_orders as co
 join pizza_names as pn using(pizza_id)
 group by 1;
@@ -102,7 +102,7 @@ group by 1;
 ```sql
 select
 	ro.order_id,
-  count(co.pizza_id) as delivered_pizza
+	count(co.pizza_id) as delivered_pizza
 from runner_orders as ro
 join customer_orders as co
 	using(order_id)
@@ -114,7 +114,37 @@ order by 2 desc limit 1;
 |----------|-----------------|
 | 4        | 3               |
 
-  - _The maximum # of pizzas delivered in one order is 3._
+  - _The maximum # of pizzas delivered in one order was 3._
+
+7. ### For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
+```sql
+select
+	co.customer_id,
+sum(case
+	when (exclusions is not null and length(exclusions) >0)
+	or (extras is not null and length(extras) >0) Then 1
+	else 0
+	end) as changes,
+sum(case
+	when (exclusions is not null and length(exclusions) >0)
+	or (extras is not null and length(extras) >0) Then 0
+	else 1
+	end) as no_changes
+from customer_orders as co
+join runner_orders as ro
+	using (order_id)
+where pickup_time is not null
+group by 1;
+```
+| customer_id | changes | no_changes |
+|-------------|---------|------------|
+| 101         | 0       | 2          |
+| 102         | 0       | 3          |
+| 103         | 3       | 0          |
+| 104         | 2       | 1          |
+| 105         | 1       | 0          |
+
+
 
 
 
