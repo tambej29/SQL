@@ -220,37 +220,145 @@ order by 2 desc;
 
 ## B. Runner and Customer Experience
 
+1. ### How many runners signed up for each 1 week period? (i.e. week starts `2021-01-01`)
+```sql
+select
+	extract(week from registration_date + 3) as week,
+    	count(runner_id) as runner_cnt
+from runners
+group by 1;
+```
+| week | runner_cnt |
+|------|------------|
+| 1    | 2          |
+| 2    | 1          |
+| 3    | 1          |
 
+- _2 runners signed up on the first week of 2021._
+- _1 runner signed up on the second and third week of 2021._
 
+2. ### What was the average time in minutes it took for each runner to arrive at the Pizza Runner HQ to pickup the order?
+```sql
+select
+	runner_id,
+    	round(time_format(avg(timediff(pickup_time, order_time)), '%i.%s')) as avg_time
+from runner_orders 
+join customer_orders using (order_id)
+where pickup_time is not null
+group by 1;
+```
+| runner_id | avg_time |
+|-----------|----------|
+| 1         | 16       |
+| 2         | 24       |
+| 3         | 10       |
 
+- _Runner 1 average delivery time is about 16 minutes._
+- _Runner 2 average delivery time is about 24 minutes._
+- _Runner 3 average delivery time is about 10 minutees._
 
+3. ### Is there any relationship between the number of pizzas and how long the order takes to prepare?
+```sql
+select
+	pizza_cnt,
+    	round(avg(time_diff)) as avg_prep_time
+from(
+	select
+		count(pizza_id) as pizza_cnt,
+		time_format(timediff(pickup_time, order_time), '%i.%s') as time_diff
+	from runner_orders as rn
+	join customer_orders as co using(order_id)
+	where pickup_time is not null
+	group by 2
+    ) as sbqry
+group by pizza_cnt;
+```
+| pizza_cnt | avg_prep_time |
+|-----------|---------------|
+| 1         | 12            |
+| 2         | 18            |
+| 3         | 29            |
 
+- _Preparation time increases with the number of pizzas ordered._
 
+4. ### What was the average distance travelled for each customer?
+```sql
+select
+	customer_id,
+    	concat(round(avg(distance)), ' km') as avg_distance
+from runner_orders
+join customer_orders using(order_id)
+group by 1;
+```
+| customer_id | avg_distance |
+|-------------|--------------|
+| 101         | 20 km        |
+| 102         | 17 km        |
+| 103         | 23 km        |
+| 104         | 10 km        |
+| 105         | 25 km        |
 
+- _The average distance traveled for customer 101 was 20 km_
+- _17 km for customer 102_
+- _23 km for customer 103_
+- _10 km for customer 104_
+- _25 km for customer 105_
 
+5. ### What was the difference between the longest and shortest delivery times for all orders?
+```sql
+select
+	max(duration) -
+    	min(duration) as time_diff
+from runner_orders;
+```
+| time_diff |
+|-----------|
+| 30        |
 
+- _ The difference between the longest and shorted delivery time was 30 minutes._
 
+6. ### What was the average speed for each runner for each delivery and do you notice any trend for these values?
+```sql
+select
+	runner_id,
+    	order_id,
+    	round(avg(distance / duration), 2) as speed,
+    	concat(round(avg(distance / (duration / 60))), ' Km/hr') as `speed(Km/hr)`
+from runner_orders
+where pickup_time is not null
+group by 1, 2
+order by 1, 2;
+```
+| runner_id | order_id | speed | speed(Km/hr) |
+|-----------|----------|-------|--------------|
+| 1         | 1        | 0.62  | 38 Km/hr     |
+| 1         | 2        | 0.74  | 44 Km/hr     |
+| 1         | 3        | 0.67  | 40 Km/hr     |
+| 1         | 10       | 1     | 60 Km/hr     |
+| 2         | 4        | 0.58  | 35 Km/hr     |
+| 2         | 7        | 1     | 60 Km/hr     |
+| 2         | 8        | 1.56  | 94 Km/hr     |
+| 3         | 5        | 0.67  | 40 Km/hr     |
 
+- _The average speed of a runner increases as the number of orders they have increases._
+- _Runner 2 really picked up the speed from his first delivery to his third delivery._
 
+7. ### What is the successful delivery percentage for each runner?
+```sql
+select
+	runner_id,
+    	concat(round((sum(case when pickup_time is null then 0 else 1 end) / count(*) * 100)), '%') as successfull_delivery_rate
+from runner_orders
+group by 1;
+```
+| runner_id | successfull_delivery_rate |
+|-----------|---------------------------|
+| 1         | 100%                      |
+| 2         | 75%                       |
+| 3         | 50%                       |
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- _The first runner had a 100% delivery rate, while the others did not._
+- _This is because both runner 2, and 3 had cancelled orders_
 
 ---
 
