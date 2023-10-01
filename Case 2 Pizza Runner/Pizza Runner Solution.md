@@ -506,15 +506,237 @@ left join pizza_names as pn
 
 </details>
 
+5. ### Generate an alphabetically ordered comma separated ingredient list for each pizza order from the `customer_orders` table and add a 2x in front of any relevant ingredients
+    - For example: `"Meat Lovers: 2xBacon, Beef, ... , Salami"`
+<details>
+<summary>
+view result:
+</summary>
 
+```sql
+with excluded as 
+	(
+    select
+		order_id,
+		pizza_id,
+		excluded_id, -- This is the column that will hold the values unnested from exclusions.
+        exclusions,
+        topping_name as excluded_topping
+	from customer_orders as co,
+    json_table(
+		concat('["', replace(exclusions, ',', '","'), '"]'), '$[*]' columns(excluded_id int path '$')) jt
+        	-- The above code will turn exclusion into a json like format, and will put the unnested values into excluded_id.
+	join pizza_toppings as pt
+		on topping_id = excluded_id
+	),
+extras as
+	(
+    select
+		order_id,
+		pizza_id,
+        extras,
+		extra_id, -- This column will house the unnested values from extras
+        topping_name as extra_topping
+	from customer_orders as co,
+    json_table(
+		concat('["', replace(extras, ',', '","'), '"]'), '$[*]' columns(extra_id int path '$')) jt
+		-- The above code will turn extras into a json like format, and will put the unnested values into extra_id.
+	join pizza_toppings as pt
+		on topping_id = extra_id
+	),
+pre_orders as
+	(
+    	select
+        	pizza_id,
+        	extraced_topping_id,
+		topping_name
+		from pizza_recipes as pr,
+    	json_table(
+		concat('["', replace(toppings, ',', '","'), '"]'), '$[*]' columns(extraced_topping_id int path '$')) as jt
+	join pizza_toppings as pt
+		on pt.topping_id = extraced_topping_id
+    	),
+-- Orders, is join customer_orders with pre_orders so each ordered pizza will have their ingredients listed
+orders as
+	(
+    	select
+		order_id,
+        	co.pizza_id,
+        	exclusions,
+        	extras,
+        	extraced_topping_id as topping_id,
+        	topping_name
+		from pre_orders as po
+    	join customer_orders as co
+		on co.pizza_id = po.pizza_id
+	),
+-- Order_details will first join excluded to orders in order to filter out excluded toppings 
+-- Then Union extras to add in the extra toppings
+order_details as
+	(
+	select
+		o.order_id,
+        	o.pizza_id,
+		o.extras,
+        	topping_id,
+        	topping_name
+		from orders as o
+    	left join excluded as exc
+		on o.pizza_id = exc.pizza_id and o.order_id = exc.order_id and o.topping_id = exc.excluded_id
+	where excluded_topping is null
+union all
+	select
+		order_id,
+        	pizza_id,
+        	extras,
+        	extra_id as topping_id,
+        	extra_topping as topping_name
+	from extras
+	),
+result as
+	(
+    	select
+		order_id,
+        	pizza_name,
+        	extras,
+        	topping_name,
+        	count(topping_id) as num -- Count the number of toppping which will be used to specify extras toppings
+	from order_details as od
+    	join pizza_names as pn using(pizza_id)
+    	group by 1, 2, 3, 4
+	)
+-- Use case statement to replace 'Meatlovers' with 'Meat Lovers' then
+-- use group_concat to nest all the topping_names to their respected pizzas.
+-- Use conditional statement to add a multiplier to any topping_name with a num > 1 and order topping_name alphabetically
+-- All of these should be withing a concat() to concatinate pizza_name and topping_name as shown below.
+select
+	order_id,
+    	concat_ws(': ', case when pizza_name = 'Meatlovers' then 'Meat Lovers' else pizza_name end,
+		group_concat(case when num > 1 then num || 'x' || topping_name else topping_name end 
+        	order by topping_name separator ', ')) as ingredients
+from result
+group by order_id, pizza_name, extras;
+```
+| order_id | ingredients                                                                              |
+|----------|------------------------------------------------------------------------------------------|
+| 1        | Meat Lovers: Bacon, BBQ Sauce, Beef, Cheese, Chicken, Mushrooms, Pepperoni, Salami       |
+| 2        | Meat Lovers: Bacon, BBQ Sauce, Beef, Cheese, Chicken, Mushrooms, Pepperoni, Salami       |
+| 3        | Meat Lovers: Bacon, BBQ Sauce, Beef, Cheese, Chicken, Mushrooms, Pepperoni, Salami       |
+| 3        | Vegetarian: Cheese, Mushrooms, Onions, Peppers, Tomato Sauce, Tomatoes                   |
+| 4        | Meat Lovers: 2xBacon, 2xBBQ Sauce, 2xBeef, 2xChicken, 2xMushrooms, 2xPepperoni, 2xSalami |
+| 4        | Vegetarian: Mushrooms, Onions, Peppers, Tomato Sauce, Tomatoes                           |
+| 5        | Meat Lovers: 2xBacon, BBQ Sauce, Beef, Cheese, Chicken, Mushrooms, Pepperoni, Salami     |
+| 6        | Vegetarian: Cheese, Mushrooms, Onions, Peppers, Tomato Sauce, Tomatoes                   |
+| 7        | Vegetarian: Bacon, Cheese, Mushrooms, Onions, Peppers, Tomato Sauce, Tomatoes            |
+| 8        | Meat Lovers: Bacon, BBQ Sauce, Beef, Cheese, Chicken, Mushrooms, Pepperoni, Salami       |
+| 9        | Meat Lovers: 2xBacon, BBQ Sauce, Beef, 2xChicken, Mushrooms, Pepperoni, Salami           |
+| 10       | Meat Lovers: Bacon, Beef, Cheese, Chicken, Pepperoni, Salami                             |
+| 10       | Meat Lovers: 2xBacon, Beef, 2xCheese, Chicken, Pepperoni, Salami                         |
 
+</details>
 
+6. ### What is the total quantity of each ingredient used in all delivered pizzas sorted by most frequent first?
+<details>
+<summary>
+view result:
+</summary>
 
+```sql
+with excluded as 
+	(
+    	select
+		order_id,
+		pizza_id,
+		excluded_id,
+        	exclusions,
+        	topping_name as excluded_topping
+	from customer_orders as co,
+   	 json_table(
+		concat('["', replace(exclusions, ',', '","'), '"]'), '$[*]' columns(excluded_id int path '$')) jt
+	join pizza_toppings as pt
+		on topping_id = excluded_id
+	),
+extras as
+	(
+    	select
+		order_id,
+		pizza_id,
+        	extras,
+		extra_id,
+        	topping_name as extra_topping
+	from customer_orders as co,
+    	json_table(
+		concat('["', replace(extras, ',', '","'), '"]'), '$[*]' columns(extra_id int path '$')) jt
+	join pizza_toppings as pt
+		on topping_id = extra_id
+	),
+pre_orders as
+	(
+    	select
+        	pizza_id,
+        	extraced_topping_id,
+        	topping_name
+	from pizza_recipes as pr,
+    	json_table(
+		concat('["', replace(toppings, ',', '","'), '"]'), '$[*]' columns(extraced_topping_id int path '$')) as jt
+	join pizza_toppings as pt
+		on pt.topping_id = extraced_topping_id
+    	),
+orders as
+	(
+    	select
+		order_id,
+        	co.pizza_id,
+        	extraced_topping_id as topping_id,
+        	topping_name
+	from pre_orders as po
+    	join customer_orders as co
+		on co.pizza_id = po.pizza_id
+	),
+order_details as
+	(
+	select
+		o.order_id,
+        	o.pizza_id,
+        	topping_id,
+        	topping_name
+		from orders as o
+    	left join excluded as exc
+		on o.pizza_id = exc.pizza_id and o.order_id = exc.order_id and o.topping_id = exc.excluded_id
+	where excluded_topping is null
+union all
+	select
+		order_id,
+        	pizza_id,
+        	extra_id as topping_id,
+        	extra_topping as topping_name
+		from extras
+	)
+select
+	topping_name,
+	count(topping_id) as total_ingredients_used
+from order_details as od
+join runner_orders as ro using(order_id)
+where pickup_time is not null
+group by 1
+order by 2 desc;
+```
+| topping_name | total_ingredients_used |
+|--------------|------------------------|
+| Bacon        | 12                     |
+| Cheese       | 10                     |
+| Mushrooms    | 10                     |
+| Beef         | 9                      |
+| Chicken      | 9                      |
+| Pepperoni    | 9                      |
+| Salami       | 9                      |
+| BBQ Sauce    | 7                      |
+| Onions       | 3                      |
+| Peppers      | 3                      |
+| Tomatoes     | 3                      |
+| Tomato Sauce | 3                      |
 
-
-
-
-
+</details>
 
 ---
 
