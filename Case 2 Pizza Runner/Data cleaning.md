@@ -1,7 +1,7 @@
 # Pizza Runner Data Cleaning
 
 
-The datasets are faily cleaned, and well structured. Only `customer_orders` and `runner_orders` need to be slightly modified. Rows with `NULL` are artually NULL values, were as rows with "null" are just null typed out. Row with "null" will be modiefied to `NULL`.
+The datasets are faily cleaned, and well structured. Only `customer_orders` and `runner_orders` need to be slightly modified. Rows with `NULL` are artually NULL values, were as rows with "null" are just null typed out. Row with "null" will be modiefied to `NULL`. I will also remove any letter from distance and duration from `runner_orders` table.
 
 
 ## Datasets:
@@ -119,6 +119,12 @@ set
   distance = case when distance = 'null' then null else distance end,
   duration = case when duration = 'null' then null else duration end,
   cancellation = case when cancellation = 'null' then null else cancellation end
+  distance = trim(replace(distance, 'km', '')),
+  duration = case
+				when duration like '%mins%' then trim('mins' from duration)
+				when duration like '%minutes%' then trim(replace(duration, 'minutes', ''))
+				when duration like '%minute%' then trim('minute' from duration)
+				else duration end
 ;
 ```
 <details>
@@ -128,16 +134,16 @@ view result:
 
 | order_id | runner_id | pickup_time         | distance | duration   | cancellation            |
 |----------|-----------|---------------------|----------|------------|-------------------------|
-| 1        | 1         | 2020-01-01 18:15:34 | 20km     | 32 minutes |                         |
-| 2        | 1         | 2020-01-01 19:10:54 | 20km     | 27 minutes |                         |
-| 3        | 1         | 2020-01-03 00:12:37 | 13.4km   | 20 mins    | `NULL`                  |
+| 1        | 1         | 2020-01-01 18:15:34 | 20       | 32         |                         |
+| 2        | 1         | 2020-01-01 19:10:54 | 20       | 27         |                         |
+| 3        | 1         | 2020-01-03 00:12:37 | 13.4     | 20         | `NULL`                  |
 | 4        | 2         | 2020-01-04 13:53:03 | 23.4     | 40         | `NULL`                  |
 | 5        | 3         | 2020-01-08 21:10:57 | 10       | 15         | `NULL`                  |
 | 6        | 3         | `NULL`              | `NULL`   | `NULL`     | Restaurant Cancellation |
-| 7        | 2         | 2020-01-08 21:30:45 | 25km     | 25mins     | `NULL`                  |
-| 8        | 2         | 2020-01-10 00:15:02 | 23.4 km  | 15 minute  | `NULL`                  |
+| 7        | 2         | 2020-01-08 21:30:45 | 25       | 25         | `NULL`                  |
+| 8        | 2         | 2020-01-10 00:15:02 | 23.4     | 15         | `NULL`                  |
 | 9        | 2         | `NULL`              | `NULL`   | `NULL`     | Customer Cancellation   |
-| 10       | 1         | 2020-01-11 18:50:20 | 10km     | 10minutes  | `NULL`                  |
+| 10       | 1         | 2020-01-11 18:50:20 | 10       | 10         | `NULL`                  |
 
 </details>
 
