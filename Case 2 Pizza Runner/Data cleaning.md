@@ -1,7 +1,7 @@
 # Pizza Runner Data Cleaning
 
 
-The datasets are faily cleaned, and well structured. Only `customer_orders` and `runner_orders` need to be slightly modified. Rows with `NULL` are artually NULL values, were as rows with "null" are just null typed out. Row with "null" will be modiefied to `NULL`. I will also remove any letter from distance and duration from `runner_orders` table.
+The datasets are faily cleaned, and well structured. Only `customer_orders` and `runner_orders` need to be slightly modified. Rows with `NULL` are artually NULL values, were as rows with "null" are just null typed out. Row with "null" will be modiefied to `NULL`. I will also remove any letter from distance and duration from `runner_orders` table. I will also remove any letter from distance, and duration in runner_orders table.
 
 
 ## Datasets:
