@@ -206,6 +206,23 @@ This table contains all of the `topping_name` values with their corresponding `t
     - Total number of pizzas
   5. If a Meat Lovers pizza was $12 and Vegetarian $10 fixed prices with no cost for extras and each runner is paid $0.30 per kilometre traveled, how much money does Pizza Runner have left over after these deliveries?
 
+---
+
+## `Links`
+
+  - [Pizza Runner solution](https://github.com/tambej29/SQL/blob/main/Case%202%20Pizza%20Runner/Pizza%20Runner%20Solution.md#d-pricing-and-ratings)
+  - [Data cleaning](https://github.com/tambej29/SQL/blob/main/Case%202%20Pizza%20Runner/Data%20cleaning.md)
+  - [Pizza Runner SQL script](https://github.com/tambej29/SQL/tree/main/Case%202%20Pizza%20Runner/Pizza%20Runner%20Script)
+  - [Pizza Runner Schema creation](https://github.com/tambej29/SQL/blob/main/Case%202%20Pizza%20Runner/Pizza%20runner%20Schema.sql)
+
+---
+
+Danny Ma owns all of the assets used in this case study, except for the solution provided. To visit Danny's `8 Week SQL Challenge`, click this [link](https://8weeksqlchallenge.com)
+
+
+
+
+
 
 
 
