@@ -364,6 +364,53 @@ group by 1;
 
 ## C. Ingredient Optimisation
 
+> Some of the queries for section c are extremly long, you will have to click on `view result:` to the see the query and the result.
+</br>
+
+1. ### What are the standard ingredients for each pizza?
+<details>
+<summary>
+view result:
+</summary>
+```sql
+with recursive num as
+	(
+    select 1 as n
+union
+	select
+		n + 1
+	from num where n < 10
+    )
+select
+	pizza_name,
+	group_concat(topping_name separator ', ') as topping_name
+from num
+join pizza_recipes as pr
+	on n <= length(toppings) - length(replace(toppings, ',', '')) + 1
+join pizza_toppings as pt
+	on pt.topping_id = substring_index(substring_index(toppings, ',', n), ',', -1)
+join pizza_names as pn
+	on pn.pizza_id = pr.pizza_id
+group by 1
+order by pizza_name;
+
+| pizza_name | topping_name                                                          |
+|------------|-----------------------------------------------------------------------|
+| Meatlovers | Bacon, BBQ Sauce, Beef, Cheese, Chicken, Mushrooms, Pepperoni, Salami |
+| Vegetarian | Cheese, Mushrooms, Onions, Peppers, Tomatoes, Tomato Sauce            |
+
+</details>
+
+
+
+
+
+
+
+
+
+
+
 ---
 
 ## D. Pricing and Ratings
