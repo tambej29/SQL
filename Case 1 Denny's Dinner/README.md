@@ -61,13 +61,13 @@ Danny also requires further information about the ```ranking``` of customer prod
 
 </details>
 
-#  
+---
 
 [Case 1  Denny's Dinner result](https://github.com/tambej29/SQL/blob/main/Case%201%20Denny's%20Dinner/Denny's%20case%201%20result.md)
 
 [Case 1 Denney's Dinner SQL script](https://github.com/tambej29/SQL/blob/main/Case%201%20Denny's%20Dinner/Denny's%20Case%201%20Script.sql)
 
-#
+---
 
-[8 Week SQL Challenge](https://8weeksqlchallenge.com)
+Danny Ma owns all of the assets used in this case study, except for the solution provided. To visit Danny's `8 Week SQL Challenge`, click this [link](https://8weeksqlchallenge.com)
 
