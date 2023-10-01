@@ -556,7 +556,7 @@ pre_orders as
 	join pizza_toppings as pt
 		on pt.topping_id = extraced_topping_id
     	),
--- Orders, is join customer_orders with pre_orders so each ordered pizza will have their ingredients listed
+-- Orders, join customer_orders with pre_orders so each ordered pizza will have their ingredients listed
 orders as
 	(
     	select
@@ -642,6 +642,8 @@ view result:
 </summary>
 
 ```sql
+-- Most of the queries here are repeated queries from the 5th questions
+-- The only difference is after order_detail cte, count the number of toppings group them by topping_name.
 with excluded as 
 	(
     	select
@@ -741,3 +743,158 @@ order by 2 desc;
 ---
 
 ## D. Pricing and Ratings
+
+1. ### If a Meat Lovers pizza costs $12 and Vegetarian costs $10 and there were no charges for changes - how much money has Pizza Runner made so far if there are no delivery fees?
+```sql
+WITH CTE AS 
+	(SELECT 
+		order_id,
+        	pizza_id,
+	CASE WHEN pizza_id =  1 then 12 else 10 end as pizza_cost
+	from customer_orders
+	)
+SELECT
+	SUM(pizza_cost) as total_sales
+from cte as c
+JOIN runner_orders ro ON c.order_id = ro.order_id
+where pickup_time is not null;
+```
+| total_sales |
+| ----------- |
+| 138         |
+
+- _The total generated revenue is $138._
+
+2. ### What if there was an additional $1 charge for any pizza extras ex:Add cheese is $1 extra?
+```sql
+select
+sum(case
+	when pizza_id = 1 then 12 else 10 end +
+	ifnull(length(replace(extras, ', ', '')), 0)
+	) as total_sales
+from customer_orders as co
+join runner_orders as ro on co.order_id = ro.order_id
+where pickup_time is not null;
+```
+| total_sales |
+| ----------- |
+| 142         |
+
+- _If $1 was charge for every extra topping, then the total revenue would be $142._
+
+3. ### The Pizza Runner team now wants to add an additional ratings system that allows customers to rate their runner, how would you design an additional table for this new dataset - generate a schema for this new table and insert your own data for ratings for each successful customer order between 1 to 5.
+```sql
+-- This rating is simply based on how long it took a runner to deliver an order.
+-- The longer it took to deliver, the worst the score would be.
+-- 1 being the worst, and 5 being the best.
+drop table if EXISTS rating;
+create table rating
+select
+	order_id,
+	case
+		when duration is null then null
+		when duration = 10 then 5
+        	when duration BETWEEN 15 and 20 then 4
+        	when duration BETWEEN 20 and 30 then 3
+        	when duration BETWEEN 30 and 35 then 2
+        	else 1
+        	end as rating
+from runner_orders;
+```
+| order_id | rating |
+|----------|--------|
+| 1        | 2      |
+| 2        | 3      |
+| 3        | 4      |
+| 4        | 1      |
+| 5        | 4      |
+| 6        | NULL   |
+| 7        | 3      |
+| 8        | 4      |
+| 9        | NULL   |
+| 10       | 5      |
+
+4. ### Using your newly generated table - can you join all of the information together to form a table which has the following information for successful deliveries?
+    - customer_id
+    - order_id
+    - runner_id
+    - rating
+    - order_time
+    - pickup_time
+    - Time between order and pickup
+    - Delivery duration
+    - Average speed
+    - Total number of pizzas
+```sql
+create table successful_deliveries
+select
+	co.customer_id,
+	co.order_id,
+	ro.runner_id,
+	r.rating,
+	co.order_time,
+	ro.pickup_time,
+        time_format(timediff(pickup_time, order_time), '%i.%s') as timediff,
+        duration as delivery_time,
+        round(avg(distance/duration),2) as avg_speed,
+        count(pizza_id) as total_pizza
+from customer_orders as co
+join runner_orders as ro on co.order_id = ro.order_id
+join rating as r on r.order_id = co.order_id
+where pickup_time is not null
+group by 1,2,3,4,5,6,8;
+```
+| customer_id | order_id | runner_id | rating | order_time          | pickup_time         | timediff | delivery_time | avg_speed | total_pizza |
+|-------------|----------|-----------|--------|---------------------|---------------------|----------|---------------|-----------|-------------|
+| 101         | 1        | 1         | 2      | 2020-01-01 18:05:02 | 2020-01-01 18:15:34 | 10.32    | 32            | 0.62      | 1           |
+| 101         | 2        | 1         | 3      | 2020-01-01 19:00:52 | 2020-01-01 19:10:54 | 10.02    | 27            | 0.74      | 1           |
+| 102         | 3        | 1         | 4      | 2020-01-02 23:51:23 | 2020-01-03 00:12:37 | 21.14    | 20            | 0.67      | 2           |
+| 103         | 4        | 2         | 1      | 2020-01-04 13:23:46 | 2020-01-04 13:53:03 | 29.17    | 40            | 0.58      | 3           |
+| 104         | 5        | 3         | 4      | 2020-01-08 21:00:29 | 2020-01-08 21:10:57 | 10.28    | 15            | 0.67      | 1           |
+| 105         | 7        | 2         | 3      | 2020-01-08 21:20:29 | 2020-01-08 21:30:45 | 10.16    | 25            | 1         | 1           |
+| 102         | 8        | 2         | 4      | 2020-01-09 23:54:33 | 2020-01-10 00:15:02 | 20.29    | 15            | 1.56      | 1           |
+| 104         | 10       | 1         | 5      | 2020-01-11 18:34:49 | 2020-01-11 18:50:20 | 15.31    | 10            | 1         | 2           |
+
+5. ### If a Meat Lovers pizza was $12 and Vegetarian $10 fixed prices with no cost for extras and each runner is paid $0.30 per kilometre traveled, how much money does Pizza Runner have left over after these deliveries?
+```sql
+select
+    sum(sales) - sum(distance * .3) as total_profit
+from(
+	select
+		order_id,
+		sum(case when pizza_id = 1 then 12 else 10 end) as sales
+	from customer_orders
+	group by order_id
+    ) as sales
+join runner_orders using(order_id)
+where pickup_time is not null;
+```
+| total_profit |
+|--------------|
+| 94.44        |
+
+- _The profit after removing deliver cost is $94.44_.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
