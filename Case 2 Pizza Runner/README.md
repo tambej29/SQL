@@ -210,7 +210,7 @@ This table contains all of the `topping_name` values with their corresponding `t
 
 ## `Links`
 
-  - [Pizza Runner solution](https://github.com/tambej29/SQL/blob/main/Case%202%20Pizza%20Runner/Pizza%20Runner%20Solution.md#d-pricing-and-ratings)
+  - [Pizza Runner solution](https://github.com/tambej29/SQL/blob/main/Case%202%20Pizza%20Runner/Pizza%20Runner%20Solution.md)
   - [Data cleaning](https://github.com/tambej29/SQL/blob/main/Case%202%20Pizza%20Runner/Data%20cleaning.md)
   - [Pizza Runner SQL script](https://github.com/tambej29/SQL/tree/main/Case%202%20Pizza%20Runner/Pizza%20Runner%20Script)
   - [Pizza Runner Schema creation](https://github.com/tambej29/SQL/blob/main/Case%202%20Pizza%20Runner/Pizza%20runner%20Schema.sql)
