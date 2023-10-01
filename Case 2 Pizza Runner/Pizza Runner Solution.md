@@ -368,11 +368,6 @@ group by 1;
 </br>
 
 1. ### What are the standard ingredients for each pizza?
-<details>
-<summary>
-view result:
-</summary>
-
 ```sql
 with recursive num as
 	(
@@ -399,6 +394,115 @@ order by pizza_name;
 |------------|-----------------------------------------------------------------------|
 | Meatlovers | Bacon, BBQ Sauce, Beef, Cheese, Chicken, Mushrooms, Pepperoni, Salami |
 | Vegetarian | Cheese, Mushrooms, Onions, Peppers, Tomatoes, Tomato Sauce            |
+
+2. ### What was the most commonly added extra?
+```sql
+select
+	count(extra_topping) as cnt,
+	topping_name
+from customer_orders,
+json_table(
+	concat('["', replace(extras, ',', '","'), '"]'), '$[*]' columns(extra_topping int path '$')) as jt
+join pizza_toppings
+	on topping_id = extra_topping
+group by 2
+order by 1 desc limit 1;
+```
+| cnt | topping_name |
+|-----|--------------|
+| 4   | Bacon        |
+
+- _Bacon was the most popular extra topping._
+
+3. ### What was the most common exclusion?
+```sql
+select
+	count(excluded_topping) as cnt,
+	topping_name
+from customer_orders,
+json_table(
+	concat('["', replace(exclusions, ',', '","'), '"]'), '$[*]' columns(excluded_topping int path '$')) as jt
+join pizza_toppings
+	on topping_id = excluded_topping
+group by 2
+order by 1 desc limit 1;
+```
+| cnt | topping_name |
+|-----|--------------|
+| 4   | Cheese       |
+
+- _Cheese was the most excluded topping._
+
+4. ### Generate an order item for each record in the `customers_orders` table in the format of one of the following:
+    - Meat Lovers
+    - Meat Lovers - `Exclude Beef`
+    - Meat Lovers - `Extra Bacon`
+    - Meat Lovers - `Exclude Cheese, Bacon` - `Extra Mushroom, Peppers`
+<details>
+<summary>
+view result:
+</summary>
+
+ ```sql
+set sql_mode=PIPES_AS_CONCAT;
+with exclusions as
+	(
+    select
+		order_id,
+        pizza_id,
+        exclusions,
+        group_concat(distinct topping_name separator ', ') as topping_name
+	from customer_orders as co,
+    json_table(
+		concat('["', replace(exclusions, ',', '","'), '"]'), '$[*]' columns(exc_topping_id int path '$')) as jt
+	join pizza_toppings as pt
+		on pt.topping_id = exc_topping_id
+	group by 1, 2, 3
+	),
+extras as
+	(
+    select
+		order_id,
+        pizza_id,
+        extras,
+        group_concat(distinct topping_name separator ', ') as topping_name
+	from customer_orders as co,
+    json_table(
+		concat('["', replace(extras, ',', '","'), '"]'), '$[*]' columns(ex_topping_id int path '$')) as jt
+	join pizza_toppings as pt
+		on pt.topping_id = ex_topping_id
+	group by 1, 2, 3
+	)
+select
+	co.order_id,
+    concat_ws(' ', case when pizza_name = 'Meatlovers' then 'Meat Lovers' else pizza_name end,
+	coalesce('- Exclude ' || exc.topping_name, ''),
+        coalesce('- Extra ' || ex.topping_name), '') as order_details
+from customer_orders as co
+left join exclusions as exc
+	on co.order_id = exc.order_id and co.pizza_id = exc.pizza_id and co.exclusions = exc.exclusions
+left join extras as ex
+	on co.order_id = ex.order_id and co.pizza_id = ex.pizza_id and co.extras = ex.extras
+left join pizza_names as pn
+	on pn.pizza_id = co.pizza_id;
+```
+
+| order_id | order_details                                                    |
+|----------|------------------------------------------------------------------|
+| 1        | Meat Lovers                                                      |
+| 2        | Meat Lovers                                                      |
+| 3        | Meat Lovers                                                      |
+| 3        | Vegetarian                                                       |
+| 4        | Meat Lovers - Exclude Cheese                                     |
+| 4        | Meat Lovers - Exclude Cheese                                     |
+| 4        | Vegetarian - Exclude Cheese                                      |
+| 5        | Meat Lovers  - Extra Bacon                                       |
+| 6        | Vegetarian                                                       |
+| 7        | Vegetarian  - Extra Bacon                                        |
+| 8        | Meat Lovers                                                      |
+| 9        | Meat Lovers - Exclude Cheese - Extra Bacon, Chicken              |
+| 10       | Meat Lovers                                                      |
+| 10       | Meat Lovers - Exclude BBQ Sauce, Mushrooms - Extra Bacon, Cheese |
 
 </details>
 
