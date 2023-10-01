@@ -372,6 +372,7 @@ group by 1;
 <summary>
 view result:
 </summary>
+
 ```sql
 with recursive num as
 	(
@@ -393,7 +394,7 @@ join pizza_names as pn
 	on pn.pizza_id = pr.pizza_id
 group by 1
 order by pizza_name;
-
+```
 | pizza_name | topping_name                                                          |
 |------------|-----------------------------------------------------------------------|
 | Meatlovers | Bacon, BBQ Sauce, Beef, Cheese, Chicken, Mushrooms, Pepperoni, Salami |
