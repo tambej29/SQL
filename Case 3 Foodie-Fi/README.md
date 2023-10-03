@@ -13,10 +13,9 @@ Danny created Foodie-Fi with a data driven mindset and wanted to ensure all futu
 
 ## Datasets
 
-### plans
 <details>
 <summary>
-View details:
+plans
 </summary>
 Customers can choose which plans to join Foodie-Fi when they first sign up.
 
@@ -33,10 +32,9 @@ When customers cancel their Foodie-Fi service - they will have a `churn` plan re
 </p>
 </details>
 
-### subscriptions
 <details>
 <summary>
-View detail:
+subscriptions
 </summary>
   
 Customer subscriptions show the exact date where their specific `plan_id` starts.
@@ -50,3 +48,43 @@ When customers churn - they will keep their access until the end of their curren
 <img src="https://github.com/tambej29/SQL/assets/68528130/3f3d217d-a8ae-4f18-bfbf-0b29f9d8ca68" width=50% hight=50%>
 </p>
 </details>
+
+## Entity Relationship Diagram
+<p align="center">
+<img src="https://github.com/tambej29/SQL/assets/68528130/ba47542f-3dc9-41b9-9b79-b12813191b88">
+</p>
+
+---
+
+<h2 align="center"> Case Study Questions </h2>
+
+### A. Customer Journey
+Based off the 8 sample customers provided in the sample from the [subscriptions](#-subsriptions) table, write a brief description about each customer’s onboarding journey.
+
+Try to keep it as short as possible - you may also want to run some sort of join to make your explanations a bit easier!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
