@@ -4,7 +4,7 @@
 ```sql
 select
 	s.customer_id as customer, 
-    concat('$', sum(m.price)) as total_spent
+    	concat('$', sum(m.price)) as total_spent
 from sales as s
 join menu as m
 	using (product_id)
@@ -167,7 +167,7 @@ GROUP BY 1;
 select
 	mb.customer_id,
 	sum(case when order_date BETWEEN mb.join_date and date_add(mb.join_date, interval 6 day) then (price * 20)
-    -- The above line will find all the orders placed on the day the customer joined the membership and 6 days after they joined and will give them 2x points on all items.
+    	-- The above line will find all the orders placed on the day the customer joined the membership and 6 days after they joined and will give them 2x points on all items.
 			when product_name = 'sushi' then (price * 20)
 			else (price * 10)
 			end) as points
