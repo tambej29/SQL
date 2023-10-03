@@ -95,6 +95,20 @@ Example outputs for this table might look like the following:
 </p>
 </details>
 
+--- 
+
+## `Links`
+
+[Foodie-Fie Solution](https://github.com/tambej29/SQL/blob/main/Case%203%20Foodie-Fi/Foodie-Fi%20Solution.md)
+
+[Foodie-Fi SQL Script](https://github.com/tambej29/SQL/blob/main/Case%203%20Foodie-Fi/foodie-fi%20Script.sql)
+
+[Foodie-Fi Schema Creation](https://github.com/tambej29/SQL/blob/main/Case%203%20Foodie-Fi/foodie_fi%20Schema%20creation.sql)
+
+---
+
+Danny Ma owns all of the assets used in this case study, except for the solution provided. To visit Danny's `8 Week SQL Challenge`, click this [link](https://8weeksqlchallenge.com)
+
 
 
 
