@@ -1,5 +1,10 @@
 <h1 align="center"> Case Study #3 - Foodie-Fi Solution </h1>
 
+## Table of contents:
+- [A. Customer Journey](#a-customer-journey)
+- [B. Data Analysis Questions](#b-data-analysis-questions)
+- [C. Challenge Payment Question](#c-challenge-payment-question)
+
 ## A. Customer Journey
 ### Based off the 8 sample customers provided in the sample from the `subscriptions` table, write a brief description about each customer’s onboarding journey.
 
