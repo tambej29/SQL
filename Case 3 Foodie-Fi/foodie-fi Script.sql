@@ -12,11 +12,11 @@ USE foodie_fi;
 SELECT
 	customer_id,
     	plan_name,
-    	DATE_FORMAT(start_date, '%M %d %Y') AS start_date
+    	DATE_FORMAT(start_date, '%b %d %Y') AS start_date
 FROM plans AS p
 JOIN subscriptions USING(plan_id)
 WHERE customer_id IN (1, 2, 11, 13, 15, 16, 18, 19)
-ORDER BY customer_id, start_date;
+ORDER BY customer_id, DATE_FORMAT(start_date, '%Y-%m-%d');
 
 
 -- B. Data Analysis Questions
