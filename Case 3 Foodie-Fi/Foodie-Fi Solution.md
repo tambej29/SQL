@@ -314,11 +314,6 @@ WHERE YEAR(a.start_date) = 2020
 ---
 
 ### C. Challenge Payment Question
-<details>
-<summary>
-View details:
-</summary>
-  
 The Foodie-Fi team wants you to create a new `payments` table for the year 2020 that includes amounts paid by each customer in the `subscriptions` table with the following requirements:
 
   - monthly payments always occur on the same day of month as the original start_date of any monthly paid plan
@@ -330,7 +325,74 @@ Example outputs for this table might look like the following:
 <p align="center">
 <img src="https://github.com/tambej29/SQL/assets/68528130/783db9dd-f766-473b-a24d-1ea481d9fb5d">
 </p>
+
+
+<details>
+<summary>
+solution:
+</summary>
+
+```sql
+DROP TABLE IF EXISTS 2020_payments;
+CREATE TABLE 2020_payments as
+WITH RECURSIVE cte AS
+    (
+    SELECT
+        customer_id,
+        plan_id,
+        plan_name,
+        start_date AS payment_date,
+        IFNULL(LEAD(start_date) OVER(PARTITION BY customer_id ORDER BY start_date), '2020-12-31') AS switch_date,
+        PRICE AS amount,
+        1 AS payment_order
+    FROM subscriptions AS s
+    JOIN plans AS p USING(plan_id)
+    WHERE YEAR(start_date) = 2020
+        AND s.plan_id NOT IN (0, 4)
+UNION ALL
+    SELECT
+        customer_id,
+        plan_id, 
+        plan_name,
+        DATE_ADD(payment_date, INTERVAL 1 MONTH) AS payment_date,
+        switch_date,
+        amount,
+        payment_order + 1 AS payment_order
+    FROM cte
+    WHERE switch_date > DATE_ADD(payment_date, INTERVAL 1 MONTH)
+        AND plan_id <> 3
+    ),
+new_price AS
+    (
+    SELECT
+        *,
+        LAG(plan_id) OVER(PARTITION BY customer_id ORDER BY payment_date) AS last_plan,
+        LAG(amount) OVER(PARTITION BY customer_id ORDER BY payment_date) AS last_amount
+    FROM cte
+    ORDER BY customer_id, payment_date
+    )
+SELECT
+    customer_id,
+    plan_id,
+    plan_name,
+    payment_date,
+CASE 
+    WHEN plan_id IN (2, 3) AND last_plan = 1 THEN amount - last_amount  
+    ELSE amount 
+END AS amount,
+    payment_order
+FROM new_price;
+SELECT * FROM 2020_payments;
 </details>
+```
+
+<p align="center">
+<img src="https://github.com/tambej29/SQL/assets/68528130/43136693-e0af-499f-80c9-14c1a741f61e"> <img src="https://github.com/tambej29/SQL/assets/68528130/e8f326bf-99b5-435f-9742-9f354a552d1b">
+</p>
+
+
+
+
 
 
 
