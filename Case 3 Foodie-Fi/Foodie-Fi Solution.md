@@ -159,7 +159,7 @@ FROM	(
 	SELECT
     	customer_id,
     	plan_name,
-		ROW_NUMBER() OVER (PARTITION BY customer_id) as rn
+	ROW_NUMBER() OVER (PARTITION BY customer_id) as rn
 	FROM subscriptions as s
   	JOIN plans as p using(plan_id)
 	) AS t
@@ -399,12 +399,12 @@ SELECT * FROM 2020_payments;
 <p align="center">
 <img src="https://github.com/tambej29/SQL/assets/68528130/43136693-e0af-499f-80c9-14c1a741f61e"> <img src="https://github.com/tambej29/SQL/assets/68528130/e8f326bf-99b5-435f-9742-9f354a552d1b">
 </p>
+</details>
 
 ---
 
 ✨Thank you for reading✨
 
-[email](tambe.j29@yahoo.com) for any improvement you believe i can make to the solutions.
 
 
 
