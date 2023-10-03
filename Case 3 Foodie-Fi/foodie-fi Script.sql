@@ -141,8 +141,8 @@ WHERE b.plan_id= 3 AND a.plan_id = 0;
 
 -- 10. Can you further breakdown this average value into 30 day periods (i.e. 0-30 days, 31-60 days etc)    
 SELECT
-	MONTH,
-    	COUNT(customer_id) AS num_cust,
+	month,
+    	count(customer_id) as num_cust,
 	ROUND(AVG(DATEDIFF(annual_start, trial_start))) avg_days
 FROM
 	(SELECT
@@ -161,12 +161,12 @@ FROM
 			 WHEN datediff(b.start_date, a.start_date) <= 270 THEN '9 months'
 			 WHEN datediff(b.start_date, a.start_date) <= 300 THEN '10 months'
 			 WHEN datediff(b.start_date, a.start_date) <= 330 THEN '11 months'
-			 WHEN datediff(b.start_date, a.start_date) <= 360 THEN '12 months'
+			 WHEN datediff(b.start_date, a.start_date) <= 360 THEN '1 year'
 			 ELSE '1 + year' END AS month
 	FROM subscriptions AS a
 	JOIN subscriptions AS b USING(customer_id)
 	WHERE b.plan_id= 3 AND a.plan_id = 0
-    )as t
+    	)as t
 GROUP BY 1
 ORDER BY 2 DESC;
 
