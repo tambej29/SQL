@@ -6,16 +6,13 @@ USE foodie_fi;
 
 -- A. Customer Journey
 
-# Based off the 8 sample customers provided in the sample from the subscriptions table, write a brief description about each customer’s onboarding journey.
-# Try to keep it as short as possible 
-
-SELECT * FROM plans;
-SELECT * FROM subscriptions;
+-- Based off the 8 sample customers provided in the sample from the subscriptions table, write a brief description about each customer’s onboarding journey.
+-- Try to keep it as short as possible 
 
 SELECT
 	customer_id,
-    plan_name,
-    DATE_FORMAT(start_date, '%M %d %Y') AS start_date
+    	plan_name,
+    	DATE_FORMAT(start_date, '%M %d %Y') AS start_date
 FROM plans AS p
 JOIN subscriptions USING(plan_id)
 WHERE customer_id IN (1, 2, 11, 13, 15, 16, 18, 19)
@@ -48,7 +45,7 @@ FROM subscriptions;
 
 SELECT
 	MONTHNAME(start_date) AS month,
-    COUNT(customer_id) AS monthly_distribution
+    	COUNT(customer_id) AS monthly_distribution
 FROM subscriptions
 WHERE plan_id = 0
 GROUP  BY month
@@ -57,7 +54,7 @@ ORDER BY monthly_distribution DESC;
 -- 3. What plan start_date values occur after the year 2020 for our dataset? Show the breakdown by count of events for each plan_name
 SELECT
 	plan_name,
-    COUNT(plan_id) AS event_count
+    	COUNT(plan_id) AS event_count
 FROM subscriptions
 JOIN plans USING(plan_id)
 WHERE EXTRACT(YEAR FROM start_date) > 2020
@@ -66,8 +63,8 @@ GROUP  BY plan_name;
 -- 4. What is the customer count and percentage of customers who have churned rounded to 1 decimal place?
 SELECT
 	COUNT(DISTINCT customer_id) AS customer_count,
-    ROUND((SELECT COUNT(DISTINCT customer_id) * 100 FROM subscriptions WHERE plan_id = 4) /
-    COUNT(DISTINCT customer_id), 1) AS churn_rate
+    	ROUND((SELECT COUNT(DISTINCT customer_id) * 100 FROM subscriptions WHERE plan_id = 4) /
+   	COUNT(DISTINCT customer_id), 1) AS churn_rate
 FROM subscriptions;
 -- Out of 1000 customer, 30.7% have churned.
 
@@ -81,7 +78,7 @@ FROM(
         customer_id,
         plan_name,
         CASE WHEN plan_name = 'trial' AND LEAD(plan_name) OVER(PARTITION BY customer_id ORDER BY plan_id) = 'churn' THEN 'churn'
-            ELSE NULL END as churn
+        	ELSE NULL END as churn
     FROM subscriptions
     JOIN plans USING(plan_id)
     ) as sbqry
@@ -93,15 +90,15 @@ FROM(
 SELECT
 	plan_name,
 	COUNT(customer_id) AS customer_count,
-    ROUND(COUNT(customer_id) / (SELECT COUNT(DISTINCT customer_id) FROM subscriptions) * 100, 2) AS plan_after_trial_percent
+    	ROUND(COUNT(customer_id) / (SELECT COUNT(DISTINCT customer_id) FROM subscriptions) * 100, 2) AS plan_after_trial_percent
 FROM
 	(SELECT
 		customer_id,
-        plan_name,
+        	plan_name,
 		ROW_NUMBER() OVER (PARTITION BY customer_id) as rn
 	FROM subscriptions as s
-    JOIN plans as p using(plan_id)
-    ) AS t
+    	JOIN plans as p using(plan_id)
+    	) AS t
 WHERE t.rn = 2
 GROUP BY plan_name;
 -- After the trial, 54.6% chose basic monthly, 32.5% chose pro monthly, 9.2% canceled, and 3.7% chose pro annual
@@ -144,8 +141,8 @@ WHERE b.plan_id= 3 AND a.plan_id = 0;
 
 -- 10. Can you further breakdown this average value into 30 day periods (i.e. 0-30 days, 31-60 days etc)    
 SELECT
-	month,
-    count(customer_id) as num_cust,
+	MONTH,
+    	COUNT(customer_id) AS num_cust,
 	ROUND(AVG(DATEDIFF(annual_start, trial_start))) avg_days
 FROM
 	(SELECT
