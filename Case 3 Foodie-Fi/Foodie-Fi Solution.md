@@ -342,6 +342,7 @@ Steps:
 - Next: We will use the window function `LAG()` to fetch the previous plan and its price, which we will use to calculate the actual amount if the previous plan was the Basic Monthly plan.
 	- Within the CTE, create two new columns using `LAG()`: `last_plan` and `last_amount`. These columns will store the previous row's plan and amount, respectively. Query the new virtual table for the final result, fetching only the necessary columns. Use a conditional statement, such as a `CASE statement`, to calculate the amount column. If the `plan_id` is 2 or 3 and the `last_plan` is 1, then subtract the last_amount from the amount. Otherwise, return the amount.
 
+Query:
 ```sql
 DROP TABLE IF EXISTS 2020_payments;
 CREATE TABLE 2020_payments as
@@ -354,7 +355,7 @@ WITH RECURSIVE cte AS
         start_date AS payment_date,
         IFNULL(LEAD(start_date) OVER(PARTITION BY customer_id ORDER BY start_date), '2020-12-31') AS switch_date,
         PRICE AS amount,
-        1 AS payment_order
+        1 AS payment_order -- This will be used to count the payment order, till plan switches or till the end of the year.
     FROM subscriptions AS s
     JOIN plans AS p USING(plan_id)
     WHERE YEAR(start_date) = 2020
@@ -395,7 +396,7 @@ FROM new_price;
 SELECT * FROM 2020_payments;
 </details>
 ```
-
+Result:
 <p align="center">
 <img src="https://github.com/tambej29/SQL/assets/68528130/43136693-e0af-499f-80c9-14c1a741f61e"> <img src="https://github.com/tambej29/SQL/assets/68528130/e8f326bf-99b5-435f-9742-9f354a552d1b">
 </p>
