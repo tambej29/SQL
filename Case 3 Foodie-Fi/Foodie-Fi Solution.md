@@ -101,7 +101,7 @@ ORDER BY monthly_distribution DESC;
 ```sql
 SELECT
 	plan_name,
-  COUNT(plan_id) AS event_count
+  	COUNT(plan_id) AS event_count
 FROM subscriptions
 JOIN plans USING(plan_id)
 WHERE EXTRACT(YEAR FROM start_date) > 2020
@@ -119,8 +119,8 @@ GROUP  BY plan_name;
 ```sql
 SELECT
 	COUNT(DISTINCT customer_id) AS customer_count,
-  ROUND((SELECT COUNT(DISTINCT customer_id) * 100 FROM subscriptions WHERE plan_id = 4) /
-  COUNT(DISTINCT customer_id), 1) AS churn_rate
+  	ROUND((SELECT COUNT(DISTINCT customer_id) * 100 FROM subscriptions WHERE plan_id = 4) /
+  	COUNT(DISTINCT customer_id), 1) AS churn_rate
 FROM subscriptions;
 ```
 | customer_count | churn_rate |
@@ -154,15 +154,15 @@ FROM(
 SELECT
 	plan_name,
 	COUNT(customer_id) AS customer_count,
-  ROUND(COUNT(customer_id) / (SELECT COUNT(DISTINCT customer_id) FROM subscriptions) * 100, 2) AS plan_after_trial_percent
-FROM
-	(SELECT
-    customer_id,
-    plan_name,
+  	ROUND(COUNT(customer_id) / (SELECT COUNT(DISTINCT customer_id) FROM subscriptions) * 100, 2) AS plan_after_trial_percent
+FROM	(
+	SELECT
+    	customer_id,
+    	plan_name,
 		ROW_NUMBER() OVER (PARTITION BY customer_id) as rn
 	FROM subscriptions as s
-  JOIN plans as p using(plan_id)
-    ) AS t
+  	JOIN plans as p using(plan_id)
+	) AS t
 WHERE t.rn = 2
 GROUP BY plan_name;
 ```
@@ -295,7 +295,42 @@ On average, customers upgrade to an annual plan within:
 - _327 days after the initial trial ending (up to 11 months)_
 - _346 days after the initial trial ending (up to 1 year)_
 
-12. ### How many customers downgraded from a pro monthly to a basic monthly plan in 2020?
+11. ### How many customers downgraded from a pro monthly to a basic monthly plan in 2020?
+```sql
+SELECT
+    COUNT(a.customer_id) AS downgraded_customers
+FROM subscriptions AS a
+JOIN subscriptions AS b ON a.customer_id = b.customer_id
+    AND b.start_date < a.start_date
+WHERE YEAR(a.start_date) = 2020
+    AND YEAR(b.start_date) = 2020
+    AND a.plan_id = 1 AND b.plan_id = 2;
+```
+| downgraded_customers |
+|----------------------|
+| 0                    |
+- _No customer have downgraded from the pro monthly to the basic monthly plan._
+
+---
+
+### C. Challenge Payment Question
+<details>
+<summary>
+View details:
+</summary>
+  
+The Foodie-Fi team wants you to create a new `payments` table for the year 2020 that includes amounts paid by each customer in the `subscriptions` table with the following requirements:
+
+  - monthly payments always occur on the same day of month as the original start_date of any monthly paid plan
+  - upgrades from basic to monthly or pro plans are reduced by the current paid amount in that month and start immediately
+  - upgrades from pro monthly to pro annual are paid at the end of the current billing period and also starts at the end of the month period
+  - once a customer churns they will no longer make payments
+
+Example outputs for this table might look like the following:
+<p align="center">
+<img src="https://github.com/tambej29/SQL/assets/68528130/783db9dd-f766-473b-a24d-1ea481d9fb5d">
+</p>
+</details>
 
 
 
