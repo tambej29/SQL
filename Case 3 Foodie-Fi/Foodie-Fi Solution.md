@@ -331,6 +331,25 @@ Example outputs for this table might look like the following:
 <summary>
 solution:
 </summary>
+	
+Steps:
+- First: To create a monthly payment order for every payment made in 2020, we will use recursive SQL. The payment order will start on the first plan after the trial period, so we need to filter trial and churn customers from the dataset, as they do not make payments. The dataset should also be filter to 2020 only.
+   	- Name the columns that will be needed for the query: `customer_id, `plan_id`, `plan_name`, `start_date as payment_date`, `price as amount`.
+   	- Use window function LEAD() to fetch the date in which the customer switch to another plan. This column will be named as switch_date.
+   	- If the customer only had 1 plan in 2020, then LEAD() will return `NULL`, or it will fetch the date the customer switch plan, and will return `NULL` thereafter because there will not be any other record to fetch and will move to the next customer.
+   	- Use IFNULL() to set those `NULL` to `2020-12-31` as that is that would be the last payment date for customer in 2020
+   	- This query will take place within a CTE, so we will add 1 and name it as payment_order as it will be use to coount the payment order when the recursion starts.
+   	- Union All will be used as it is needed for the recursion to work.
+   	- Use DATE_ADD() to add 1 month interval from the start of the payment order until the date the customer switch plan
+   	- Now add one to payment_order so it will count the payment_order till till the plan switch. Ex: (payment_order + 1 as payment_order)
+   	- To end this part of the query, We need to set and end filter for the recursion or it will go on forever.
+   	- The recustion will stop when the switch_date > payment_date, and plan_id is not 3, because 3 is the annual plan, and annual subscribers pay once a year.
+- Next: We will use the window function LAG() to fetch the previous plan and its price, which we will use to calculate the actual amount if the previous plan was the Basic Monthly plan.
+	- Within the CTE, create two new columns using LAG(): `last_plan` and `last_amount`. These columns will store the previous row's plan and amount, respectively. Query the new virtual table for the final result, fetching only the necessary columns. Use a conditional statement, such as a CASE statement, to calculate the amount column. If the `plan_id` is 2 or 3 and the `last_plan` is 1, then subtract the last_amount from the amount. Otherwise, return the amount.
+
+
+
+
 
 ```sql
 DROP TABLE IF EXISTS 2020_payments;
