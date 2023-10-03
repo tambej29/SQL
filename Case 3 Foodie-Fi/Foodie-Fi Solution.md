@@ -173,13 +173,128 @@ GROUP BY plan_name;
 | pro monthly   | 325            | 32.50                    |
 | churn         | 92             | 9.20                     |
 - _Approximately 55% of Foodie-Fi customers subscribed to the basic monthly plan after their initial trial._
-- _Approximately 4% of Foodie-Fi customers subscribed to the pro annual plan after their initial trial._
 - _Approximately 34% of Foodie-Fi customers subscribed to the pro monthly plan after their initial trial._
+- _Approximately 4% of Foodie-Fi customers subscribed to the pro annual plan after their initial trial._
 - _Approximately 9% of Foodie-Fi customers churned after their initial free trial._
-8. ### What is the customer count and percentage breakdown of all 5 `plan_name` values at `2020-12-31`?
-9. ### How many customers have upgraded to an annual plan in 2020?
-10. ### How many days on average does it take for a customer to upgrade from an annual plan from the day they join Foodie-Fi?
-11. ### Can you further breakdown this average value into 30 day periods (i.e. 0-30 days, 31-60 days etc)
+
+7. ### What is the customer count and percentage breakdown of all 5 `plan_name` values at `2020-12-31`?
+```sql
+WITH cte AS 
+    (
+    SELECT
+        customer_id,
+        plan_name,
+        start_date,
+        ROW_NUMBER() OVER(PARTITION BY customer_id ORDER BY start_date DESC) as last_plan
+    FROM subscriptions
+    JOIN plans USING(plan_id)
+    WHERE YEAR(start_date) = 2020
+    )
+SELECT
+    plan_name,
+    COUNT(customer_id) AS customer_count,
+    ROUND(COUNT(customer_id) / (SELECT COUNT(DISTINCT customer_id) FROM cte) * 100, 1) as percentage
+FROM cte
+WHERE last_plan = 1
+GROUP BY plan_name;
+```
+| plan_name     | customer_count | percentage |
+|---------------|----------------|------------|
+| basic monthly | 224            | 22.4       |
+| pro annual    | 195            | 19.5       |
+| churn         | 236            | 23.6       |
+| pro monthly   | 326            | 32.6       |
+| trial         | 19             | 1.9        |
+- _By the end of 2020, the most popular subscription plan was Pro Monthly._
+- _The customer churn rate increased from 9% after the trial period to 23.6% by the end of 2020._
+
+8. ### How many customers have upgraded to an annual plan in 2020?
+```sql
+SELECT 
+	COUNT(customer_id) AS num_cust
+FROM subscriptions
+WHERE DATE_FORMAT(start_date, '%Y') = 2020
+AND plan_id = 3;
+```
+| num_cust |
+|----------|
+| 195      |
+- _195 customers upgraded to an annual plan in 2020._
+
+9. ### How many days on average does it take for a customer to upgrade to an annual plan from the day they join Foodie-Fi?
+```sql
+SELECT
+	ROUND(AVG(DATEDIFF(b.start_date, a.start_date)), 1) AS avg_day
+FROM subscriptions AS a
+JOIN subscriptions AS b USING(customer_id)
+WHERE b.plan_id= 3 AND a.plan_id = 0;
+```
+| avg_day |
+|---------|
+| 104.6   |
+- _On average it takes approximately 105% days for a customer to upgrade to an annual plan from the day they joined Foodie-Fi._
+
+10. ### Can you further breakdown this average value into 30 day periods (i.e. 0-30 days, 31-60 days etc)
+```sql
+SELECT
+	time,
+    	count(customer_id) as num_cust,
+	ROUND(AVG(DATEDIFF(annual_start, trial_start))) avg_days
+FROM
+	(SELECT
+		a.customer_id,
+		a.start_date AS trial_start,
+		b.start_date AS annual_start,
+		datediff(b.start_date, a.start_date) AS date_diff,
+		CASE WHEN datediff(b.start_date, a.start_date) <= 30 THEN '1 month'
+			 WHEN datediff(b.start_date, a.start_date) <= 60 THEN '2 months'
+			 WHEN datediff(b.start_date, a.start_date) <= 90 THEN '3 months'
+			 WHEN datediff(b.start_date, a.start_date) <= 120 THEN '4 months'
+			 WHEN datediff(b.start_date, a.start_date) <= 150 THEN '5 months'
+			 WHEN datediff(b.start_date, a.start_date) <= 180 THEN '6 months'
+			 WHEN datediff(b.start_date, a.start_date) <= 210 THEN '7 months'
+			 WHEN datediff(b.start_date, a.start_date) <= 240 THEN '8 months'
+			 WHEN datediff(b.start_date, a.start_date) <= 270 THEN '9 months'
+			 WHEN datediff(b.start_date, a.start_date) <= 300 THEN '10 months'
+			 WHEN datediff(b.start_date, a.start_date) <= 330 THEN '11 months'
+			 WHEN datediff(b.start_date, a.start_date) <= 360 THEN '1 year'
+			 ELSE '1 + year' END AS time
+	FROM subscriptions AS a
+	JOIN subscriptions AS b USING(customer_id)
+	WHERE b.plan_id= 3 AND a.plan_id = 0
+    	)as t
+GROUP BY 1
+ORDER BY 2 DESC;
+```
+| time      | num_cust | avg_days |
+|-----------|----------|----------|
+| 1 month   | 49       | 10       |
+| 5 months  | 42       | 133      |
+| 6 months  | 36       | 162      |
+| 4 months  | 35       | 101      |
+| 3 months  | 34       | 71       |
+| 7 months  | 26       | 191      |
+| 2 months  | 24       | 42       |
+| 9 months  | 5        | 257      |
+| 8 months  | 4        | 224      |
+| 1 year    | 1        | 346      |
+| 10 months | 1        | 285      |
+| 11 months | 1        | 327      |
+
+On average, customers upgrade to an annual plan within:
+- _10 days after the initial trial ending_
+- _42 days after the initial trial ending (up to 2 months)_
+- _71 days after the initial trial ending (up to 3 months)_
+- _101 days after the initial trial ending (up to 4 months)_
+- _133 days after the initial trial ending (up to 5 months)_
+- _162 days after the initial trial ending (up to 6 months)_
+- _191 days after the initial trial ending (up to 7 months)_
+- _224 days after the initial trial ending (up to 8 months)_
+- _257 days after the initial trial ending (up to 9 months)_
+- _285 days after the initial trial ending (up to 10 months)_
+- _327 days after the initial trial ending (up to 11 months)_
+- _346 days after the initial trial ending (up to 1 year)_
+
 12. ### How many customers downgraded from a pro monthly to a basic monthly plan in 2020?
 
 
