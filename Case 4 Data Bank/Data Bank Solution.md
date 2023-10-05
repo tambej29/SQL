@@ -132,7 +132,7 @@ GROUP BY 1;
 | withdrawal | 1580       | 793003       |
 | purchase   | 1617       | 806537       |
 
--_There have been 2,671 deposits totaling $1.36M, 1,580 withdrawals totaling $793K, and 2,671 purchases totaling $806.5K._
+- _There have been 2,671 deposits totaling $1.36M, 1,580 withdrawals totaling $793K, and 2,671 purchases totaling $806.5K._
 
 ### 2. What is the average total historical deposit counts and amounts for all customers?
 ```sql
