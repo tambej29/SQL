@@ -22,8 +22,8 @@ FROM customer_nodes;
 ```sql
 SELECT
 	region_name,
-    COUNT(DISTINCT node_id) as unique_node,
-    COUNT(node_id) as node_cnt
+    	COUNT(DISTINCT node_id) as unique_node,
+    	COUNT(node_id) as node_cnt
 FROM customer_nodes
 JOIN regions USING(region_id)
 GROUP BY 1;
@@ -45,7 +45,7 @@ GROUP BY 1;
 ```sql
 SELECT
 	region_name,
-    COUNT(DISTINCT customer_id) as customer_cnt
+    	COUNT(DISTINCT customer_id) as customer_cnt
 FROM customer_nodes
 JOIN regions USING(region_id)
 GROUP BY 1
@@ -112,6 +112,7 @@ GROUP BY region_name;
 | Asia        | 15     | 23              | 28              |
 | Australia   | 15     | 23              | 28              |
 | Europe      | 15     | 24              | 28              |
+
 - _The median day for customers to be reallocated to a new node is 15 days in all regions, with the 80th percentile at 24 days and the 95th percentile at 28 days, except for America, Australia and Asia, where the 80th percentile is 23 days._
 
 ## B. Customer Transactions
@@ -121,7 +122,7 @@ GROUP BY region_name;
 SELECT
 	txn_type,
 	COUNT(txn_type) as unique_txn,
-    SUM(txn_amount) as total_amount
+	SUM(txn_amount) as total_amount
 FROM customer_transactions
 GROUP BY 1;
 ```
@@ -130,6 +131,7 @@ GROUP BY 1;
 | deposit    | 2671       | 1359168      |
 | withdrawal | 1580       | 793003       |
 | purchase   | 1617       | 806537       |
+
 -_There have been 2,671 deposits totaling $1.36M, 1,580 withdrawals totaling $793K, and 2,671 purchases totaling $806.5K._
 
 ### 2. What is the average total historical deposit counts and amounts for all customers?
@@ -158,7 +160,7 @@ FROM
 ```sql
 SELECT
 	month,
-    COUNT(customer_id) as customer_cnt
+    	COUNT(customer_id) as customer_cnt
 FROM(
 	SELECT
 		customer_id,
