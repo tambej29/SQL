@@ -219,7 +219,7 @@ percent AS
     )
 SELECT
     ROUND(COUNT(DISTINCT customer_id) / 
-    (SELECT COUNT(DISTINCT customer_id) FROM percent WHERE rate IS NOT NULL) * 100, 2) AS pct_custoemr
+    (SELECT COUNT(DISTINCT customer_id) FROM percent WHERE rate IS NOT NULL) * 100, 2) AS pct_customer
 FROM percent
 WHERE rate > 5;
 -- 67 of the customers increased their closing balance by more 5%;
