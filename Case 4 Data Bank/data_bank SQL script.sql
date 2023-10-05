@@ -45,8 +45,8 @@ FROM customer_nodes;
 # 2. What is the number of nodes per region?
 SELECT
 	region_name,
-    COUNT(DISTINCT node_id) as unique_node,
-    COUNT(node_id) as node_cnt
+    	COUNT(DISTINCT node_id) as unique_node,
+    	COUNT(node_id) as node_cnt
 FROM customer_nodes
 JOIN regions USING(region_id)
 GROUP BY 1;
@@ -57,7 +57,7 @@ GROUP BY 1;
 # 3. How many customers are allocated to each region?
 SELECT
 	region_name,
-    COUNT(DISTINCT customer_id) as customer_cnt
+    	COUNT(DISTINCT customer_id) as customer_cnt
 FROM customer_nodes
 JOIN regions USING(region_id)
 GROUP BY 1
@@ -126,7 +126,7 @@ GROUP BY region_name;
 SELECT
 	txn_type,
 	COUNT(txn_type) as unique_txn,
-    SUM(txn_amount) as total_amount
+    	SUM(txn_amount) as total_amount
 FROM customer_transactions
 GROUP BY 1;
 
@@ -150,7 +150,7 @@ FROM
 # 3.For each month - how many Data Bank customers make more than 1 deposit and either 1 purchase or 1 withdrawal in a single month?
 SELECT
 	month,
-    COUNT(customer_id) as customer_cnt
+    	COUNT(customer_id) as customer_cnt
 FROM(
 	SELECT
 		customer_id,
@@ -214,7 +214,7 @@ percent AS
     SELECT
         *,
         ROUND((closing_balance - LAG(closing_balance) OVER(PARTITION BY customer_id)) /
-            ABS(LAG(closing_balance) OVER(PARTITION BY customer_id)) * 100, 2) AS rate
+        ABS(LAG(closing_balance) OVER(PARTITION BY customer_id)) * 100, 2) AS rate
     FROM closing
     )
 SELECT
