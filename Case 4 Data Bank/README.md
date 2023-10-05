@@ -133,6 +133,7 @@ Using all of the data available - how much data would have been required for eac
 ---
 
 ## `Links`
+[Data Bank Solution](https://github.com/tambej29/SQL/blob/main/Case%204%20Data%20Bank/Data%20Bank%20Solution.md)
 
 [Data Bank SQL Script](https://github.com/tambej29/SQL/blob/main/Case%204%20Data%20Bank/data_bank%20SQL%20script.sql)
 
