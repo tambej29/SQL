@@ -10,7 +10,7 @@ LINES TERMINATED BY '\n'
 IGNORE 1 ROWS
 ;
 ```
-### There 8 datasets that will be used:
+### There are 8 datasets that will be used:
 - Customers: This dataset has information about the customer and its location.
 - Items: This dataset includes data about the items purchased within each order.
 - Payments: This dataset includes data about the orders payment options.
