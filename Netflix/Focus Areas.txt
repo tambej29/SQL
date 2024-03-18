@@ -1,0 +1,39 @@
+Focus Areas
+
+Subscriber Growth and Trends:
+
+How has the userbase grown over time (focus on the join dates)? Are there any seasonal patterns?
+Where are most subscribers located geographically? Are there emerging markets to target?
+Subscription Plan Analysis
+
+What's the distribution of users across subscription tiers (Basic, Standard, Premium)?
+Are there correlations between plan choice, location, and device type?
+Revenue Drivers
+
+How much revenue does the average subscriber from each plan and country generate?
+Are there any high-value customer segments?
+User Churn
+
+Analyze the 'Account Status' and 'Last Payment Date' to calculate churn rate.
+Are any early indicators of churn detectable (like patterns in device usage or join date)?
+Device Preferences
+
+What are the most popular devices for streaming?
+Does this vary depending on subscription plan or geographical location?
+Technical Approach
+
+Data Loading and Cleaning: Load the dataset using a tool like Python (Pandas library) or a spreadsheet program. Check for missing values, inconsistencies, and potential formatting errors.
+
+Descriptive Statistics: Calculate summaries like mean, median, and standard deviation for revenue, join dates, and other relevant variables. This will give you a baseline understanding of the data.
+
+Data Visualization:
+
+Create bar charts to visualize the distribution of subscription plans and device types.
+Plot line charts to show subscriber growth trends over time.
+Consider heatmaps or maps if exploring geographical distribution is key.
+Manager's Tip:  Don't just analyze the data, tell a story with it. Link your insights back to potential business actions:
+
+Growth Strategy: Could Netflix target promotions or content towards specific regions or demographics?
+Pricing Strategy: Is there potential to optimize the pricing of different subscription tiers?
+Churn Prevention: Can Netflix implement proactive measures to reduce churn based on your findings?
+Let's Start!  Where would you like to begin your analysis? I'm ready to give you more specific guidance as you dive into the dataset.
